@@ -8,6 +8,15 @@ window.AALO_MANIFEST = [
     "file": "data/menno.js"
   },
   {
+    "id": "metin",
+    "nav": "Oefentoets Metin",
+    "title": "Oefentoets Metin",
+    "subtitle": "Theorie examen (bron: proefexamen Metin, met bronvindplaatsen uit het studieboek)",
+    "intro": "47 vragen uit het proefexamen van Metin. Bij elke vraag staat de bronvindplaats uit het studieboek; het label geeft aan of de stof wél, deels of niet in het studieboek voorkomt. Kies eventueel een hoofdstuk. Vragen en antwoordopties worden elke poging in willekeurige volgorde getoond.",
+    "file": "data/metin.js",
+    "paragraafLabels": { "1": "Beroep & ethiek", "2": "Anatomie", "3": "Fysiologie I", "4": "Fysiologie II", "5": "Voeding", "6": "Trainingsleer", "7": "Intake, testen & meten", "8": "Coaching", "9": "Blessures", "10": "Oefenvormen" }
+  },
+  {
     "id": "h2_anatomie",
     "nav": "Oefenvragen H2_Anatomie",
     "title": "Oefenvragen H2 Anatomie",
