@@ -55,5 +55,39 @@ window.AALO_MANIFEST = [
       "4.6": "Hormoonstelsel",
       "4.7": "Effecten van training"
     }
+  },
+  {
+    "id": "h5_voeding",
+    "nav": "Oefenvragen H5_Voeding",
+    "title": "Oefenvragen H5 Voeding",
+    "subtitle": "AALO Fitness Master (Level 3) · studieboek hoofdstuk 5 – voeding",
+    "intro": "Oefenvragen over Hoofdstuk 5 (Voeding). Kies een paragraaf en een oefenmodus. Het label \"Ook in pptx\" betekent dat het onderwerp ook in de lespresentaties terugkomt.",
+    "file": "data/h5.js",
+    "paragraafLabels": {
+      "5.1": "Macro- en micronutriënten",
+      "5.2": "Koolhydraten",
+      "5.3": "Vetten",
+      "5.4": "Eiwitten",
+      "5.5": "Micronutriënten",
+      "5.6": "Aanbevolen dagelijkse hoeveelheid",
+      "5.7": "Voeding en sport",
+      "5.8": "Doorverwijzen"
+    }
+  },
+  {
+    "id": "h9_blessures",
+    "nav": "Oefenvragen H9_Blessures",
+    "title": "Oefenvragen H9 Differentiaties en blessures",
+    "subtitle": "AALO Fitness Master (Level 3) · studieboek hoofdstuk 9 – differentiaties en blessures",
+    "intro": "Oefenvragen over Hoofdstuk 9 (Differentiaties en blessures). Kies een paragraaf en een oefenmodus. Het label \"Ook in pptx\" betekent dat het onderwerp ook in de lespresentaties terugkomt.",
+    "file": "data/h9.js",
+    "paragraafLabels": {
+      "9.1": "Overbelasting",
+      "9.2": "Blessures (terminologie en fasen)",
+      "9.3": "Rol van de trainer",
+      "9.4": "Onderste extremiteiten",
+      "9.5": "Bovenste extremiteiten",
+      "9.6": "Wervelkolom"
+    }
   }
 ];
