@@ -2430,5 +2430,447 @@ window.AALO_QUIZ_DATA["h2_anatomie"] = [
   "pptx": true,
   "paragraaf": "2.5",
   "set": "extra"
+ },
+ {
+  "q": "Welk deel van de wervelkolom telt zeven wervels?",
+  "options": [
+   "Het thoracale deel (borstwervels)",
+   "Het cervicale deel (halswervels)",
+   "Het lumbale deel (lendenwervels)"
+  ],
+  "correct": 1,
+  "bron": "§2.1.2, studieboek p. 8",
+  "pptx": true,
+  "paragraaf": "2.1",
+  "set": "extra"
+ },
+ {
+  "q": "Welk deel van de wervelkolom telt vijf wervels?",
+  "options": [
+   "Het cervicale deel (halswervels)",
+   "Het thoracale deel (borstwervels)",
+   "Het lumbale deel (lendenwervels)"
+  ],
+  "correct": 2,
+  "bron": "§2.1.2, studieboek p. 8",
+  "pptx": true,
+  "paragraaf": "2.1",
+  "set": "extra"
+ },
+ {
+  "q": "Wat is hyperkyfose?",
+  "options": [
+   "Een te grote bolling in de bovenrug",
+   "Een te holle onderrug",
+   "Een abnormale zijwaartse kromming van de wervelkolom"
+  ],
+  "correct": 0,
+  "bron": "§2.1.6, studieboek p. 11",
+  "pptx": true,
+  "paragraaf": "2.1",
+  "set": "extra"
+ },
+ {
+  "q": "Wat is hyperlordose?",
+  "options": [
+   "Een te grote bolling in de bovenrug",
+   "Een te holle onderrug",
+   "Een abnormale zijwaartse kromming van de wervelkolom"
+  ],
+  "correct": 1,
+  "bron": "§2.1.6, studieboek p. 11",
+  "pptx": true,
+  "paragraaf": "2.1",
+  "set": "extra"
+ },
+ {
+  "q": "Wat is scoliose?",
+  "options": [
+   "Een te holle onderrug",
+   "Een te grote bolling in de bovenrug",
+   "Een abnormale zijwaartse kromming van de wervelkolom"
+  ],
+  "correct": 2,
+  "bron": "§2.1.6, studieboek p. 12",
+  "pptx": false,
+  "paragraaf": "2.1",
+  "set": "extra"
+ },
+ {
+  "q": "Maak de zin af: de onderste ribben die niet aan het borstbeen vastzitten en vrij eindigen, heten de … ribben.",
+  "options": [
+   "zwevende",
+   "ware",
+   "valse"
+  ],
+  "correct": 0,
+  "bron": "§2.1.5, studieboek p. 11",
+  "pptx": true,
+  "paragraaf": "2.1",
+  "set": "extra"
+ },
+ {
+  "q": "Welke halswervel maakt vooral de 'nee'-schudbeweging (rotatie) van het hoofd mogelijk?",
+  "options": [
+   "De atlas (C1)",
+   "De draaier (axis, C2)",
+   "De zevende halswervel (C7)"
+  ],
+  "correct": 1,
+  "bron": "§2.1.4, studieboek p. 10",
+  "pptx": true,
+  "paragraaf": "2.1",
+  "set": "extra"
+ },
+ {
+  "q": "Welke halswervel maakt vooral de 'ja'-knikbeweging van het hoofd mogelijk?",
+  "options": [
+   "De draaier (axis, C2)",
+   "Het os sacrum",
+   "De atlas (C1)"
+  ],
+  "correct": 2,
+  "bron": "§2.1.4, studieboek p. 10",
+  "pptx": true,
+  "paragraaf": "2.1",
+  "set": "extra"
+ },
+ {
+  "q": "Welke aandoening wordt hier beschreven: een afname van de botdichtheid waardoor de botten brozer worden?",
+  "options": [
+   "Osteoporose",
+   "Een hernia (HNP)",
+   "Scoliose"
+  ],
+  "correct": 0,
+  "bron": "§2.1.6, studieboek p. 13",
+  "pptx": true,
+  "paragraaf": "2.1",
+  "set": "extra"
+ },
+ {
+  "q": "Maak de zin af: botopbouwende cellen heten osteoblasten, botafbrekende cellen heten …",
+  "options": [
+   "osteoblasten",
+   "osteoclasten",
+   "osteocyten"
+  ],
+  "correct": 1,
+  "bron": "§2.1.6, studieboek p. 13",
+  "pptx": false,
+  "paragraaf": "2.1",
+  "set": "extra"
+ },
+ {
+  "q": "Welk percentage van het bloed bestaat uit plasma?",
+  "options": [
+   "Ongeveer 45%",
+   "Ongeveer 80%",
+   "Ongeveer 55%"
+  ],
+  "correct": 2,
+  "bron": "§2.2.1, studieboek p. 14",
+  "pptx": true,
+  "paragraaf": "2.2",
+  "set": "extra"
+ },
+ {
+  "q": "In welk orgaan wordt het hormoon EPO (erytropoëtine) aangemaakt?",
+  "options": [
+   "In de nieren",
+   "In de lever",
+   "In het beenmerg"
+  ],
+  "correct": 0,
+  "bron": "§2.2.1, studieboek p. 15",
+  "pptx": true,
+  "paragraaf": "2.2",
+  "set": "extra"
+ },
+ {
+  "q": "Welke drie typen kraakbeen onderscheiden we?",
+  "options": [
+   "Bind-, kraakbeen- en botweefsel",
+   "Hyalien, elastisch en vezelig kraakbeen",
+   "Ware, valse en zwevende"
+  ],
+  "correct": 1,
+  "bron": "§2.2.3, studieboek p. 17",
+  "pptx": true,
+  "paragraaf": "2.2",
+  "set": "extra"
+ },
+ {
+  "q": "Hoeveel functies van het lymfestelsel worden in het studieboek onderscheiden?",
+  "options": [
+   "Vijf",
+   "Zeven",
+   "Drie"
+  ],
+  "correct": 2,
+  "bron": "§2.2.2, studieboek p. 16",
+  "pptx": true,
+  "paragraaf": "2.2",
+  "set": "extra"
+ },
+ {
+  "q": "Uit hoeveel processtappen bestaat de werking van het lymfestelsel?",
+  "options": [
+   "Vijf",
+   "Drie",
+   "Zeven"
+  ],
+  "correct": 0,
+  "bron": "§2.2.2, studieboek p. 16",
+  "pptx": true,
+  "paragraaf": "2.2",
+  "set": "extra"
+ },
+ {
+  "q": "Noem een voorbeeld van steunweefsel.",
+  "options": [
+   "Epitheelweefsel",
+   "Botweefsel",
+   "Bloed"
+  ],
+  "correct": 1,
+  "bron": "§2.2.3, studieboek p. 17",
+  "pptx": true,
+  "paragraaf": "2.2",
+  "set": "extra"
+ },
+ {
+  "q": "Wat is de functie van epitheelweefsel (dekweefsel)?",
+  "options": [
+   "Het vervoert zuurstof door het lichaam",
+   "Het verbindt botten met elkaar",
+   "Het bekleedt en beschermt de oppervlakken van het lichaam en de organen"
+  ],
+  "correct": 2,
+  "bron": "§2.2.3, studieboek p. 16-17",
+  "pptx": true,
+  "paragraaf": "2.2",
+  "set": "extra"
+ },
+ {
+  "q": "Wat is een voordeel van gevederde spieren ten opzichte van niet-gevederde spieren?",
+  "options": [
+   "Een grotere krachtontwikkeling (meer spiervezels per volume)",
+   "Een groter bewegingstraject",
+   "Een lager energieverbruik"
+  ],
+  "correct": 0,
+  "bron": "§2.3.3, studieboek p. 18",
+  "pptx": true,
+  "paragraaf": "2.3",
+  "set": "extra"
+ },
+ {
+  "q": "Wat is een voordeel van niet-gevederde spieren ten opzichte van gevederde spieren?",
+  "options": [
+   "Een grotere maximale krachtontwikkeling",
+   "Een groter bewegingstraject",
+   "Een hogere botdichtheid"
+  ],
+  "correct": 1,
+  "bron": "§2.3.3, studieboek p. 18",
+  "pptx": true,
+  "paragraaf": "2.3",
+  "set": "extra"
+ },
+ {
+  "q": "Hoe heet de theorie die beschrijft dat de filamenten actine en myosine langs elkaar schuiven tijdens een contractie?",
+  "options": [
+   "De negatieve terugkoppeling",
+   "De alles-of-niets-wet",
+   "De sliding filament-theorie"
+  ],
+  "correct": 2,
+  "bron": "§2.3.5, studieboek p. 21",
+  "pptx": true,
+  "paragraaf": "2.3",
+  "set": "extra"
+ },
+ {
+  "q": "De m. biceps brachii bij de elleboog is een voorbeeld van welke klasse hefboom?",
+  "options": [
+   "Een derde klasse hefboom",
+   "Een eerste klasse hefboom",
+   "Een tweede klasse hefboom"
+  ],
+  "correct": 0,
+  "bron": "§2.3.6, studieboek p. 23",
+  "pptx": false,
+  "paragraaf": "2.3",
+  "set": "extra"
+ },
+ {
+  "q": "Maak de zin af: het celmembraan dat een spiervezel omgeeft, heet het …",
+  "options": [
+   "endomysium",
+   "sarcolemma",
+   "perimysium"
+  ],
+  "correct": 1,
+  "bron": "§2.3.7, studieboek p. 24",
+  "pptx": true,
+  "paragraaf": "2.3",
+  "set": "extra"
+ },
+ {
+  "q": "Wat zijn bi-articulaire spieren, kort samengevat?",
+  "options": [
+   "Spieren die maar aan één bot vastzitten",
+   "Spieren zonder pees",
+   "Spieren die over twee gewrichten lopen"
+  ],
+  "correct": 2,
+  "bron": "§2.3.4, studieboek p. 19",
+  "pptx": true,
+  "paragraaf": "2.3",
+  "set": "extra"
+ },
+ {
+  "q": "Welk gewricht wordt gevormd door os femur, os tibia en os patella?",
+  "options": [
+   "Het kniegewricht",
+   "Het heupgewricht",
+   "Het enkelgewricht"
+  ],
+  "correct": 0,
+  "bron": "§2.4.2, studieboek p. 27",
+  "pptx": true,
+  "paragraaf": "2.4",
+  "set": "extra"
+ },
+ {
+  "q": "Welk gewricht wordt gevormd door os coxae en os femur?",
+  "options": [
+   "Het kniegewricht",
+   "Het heupgewricht",
+   "Het glenohumeraal gewricht"
+  ],
+  "correct": 1,
+  "bron": "§2.4.2, studieboek p. 27",
+  "pptx": true,
+  "paragraaf": "2.4",
+  "set": "extra"
+ },
+ {
+  "q": "Welk gewricht wordt gevormd door os humerus en os scapula?",
+  "options": [
+   "Het acromioclaviculair gewricht",
+   "Het kniegewricht",
+   "Het glenohumeraal gewricht"
+  ],
+  "correct": 2,
+  "bron": "§2.4.3, studieboek p. 27",
+  "pptx": true,
+  "paragraaf": "2.4",
+  "set": "extra"
+ },
+ {
+  "q": "Uit hoeveel gewrichten bestaat de schoudergordel?",
+  "options": [
+   "Drie",
+   "Twee",
+   "Vier"
+  ],
+  "correct": 0,
+  "bron": "§2.4.3, studieboek p. 28",
+  "pptx": true,
+  "paragraaf": "2.4",
+  "set": "extra"
+ },
+ {
+  "q": "Welk begrip beschrijft de mate waarin je een gewricht in een enkele beweging kunt bewegen, uitgedrukt in graden?",
+  "options": [
+   "De lenigheid",
+   "De beweeglijkheid",
+   "De mobiliteit"
+  ],
+  "correct": 1,
+  "bron": "§2.4.1, studieboek p. 25",
+  "pptx": true,
+  "paragraaf": "2.4",
+  "set": "extra"
+ },
+ {
+  "q": "Welke spier heeft als origo os ilium en als insertie L1 tot L4 en de 12e rib?",
+  "options": [
+   "De m. multifidus",
+   "De m. piriformis",
+   "De m. quadratus lumborum"
+  ],
+  "correct": 2,
+  "bron": "§2.5.1, studieboek p. 29",
+  "pptx": true,
+  "paragraaf": "2.5",
+  "set": "extra"
+ },
+ {
+  "q": "Welke spier heeft als origo os sacrum en hecht aan op de trochanter van os femur?",
+  "options": [
+   "De m. piriformis",
+   "De m. popliteus",
+   "De m. plantaris"
+  ],
+  "correct": 0,
+  "bron": "§2.5.4, studieboek p. 32",
+  "pptx": true,
+  "paragraaf": "2.5",
+  "set": "extra"
+ },
+ {
+  "q": "Welke spier heeft als origo os sternum en os clavicula?",
+  "options": [
+   "De mm. scaleni",
+   "De m. sternocleidomastoideus",
+   "De m. longus colli"
+  ],
+  "correct": 1,
+  "bron": "§2.5.2, studieboek p. 30",
+  "pptx": true,
+  "paragraaf": "2.5",
+  "set": "extra"
+ },
+ {
+  "q": "Welke spier heeft als insertie de 1e tot 3e costae (ribben)?",
+  "options": [
+   "De m. sternocleidomastoideus",
+   "De m. quadratus lumborum",
+   "De mm. scaleni"
+  ],
+  "correct": 2,
+  "bron": "§2.5.2, studieboek p. 30",
+  "pptx": true,
+  "paragraaf": "2.5",
+  "set": "extra"
+ },
+ {
+  "q": "Welke spier heeft als origo os tibia en os fibula?",
+  "options": [
+   "De m. tibialis posterior",
+   "De m. peroneus longus",
+   "De m. plantaris"
+  ],
+  "correct": 0,
+  "bron": "§2.5.3, studieboek p. 31",
+  "pptx": false,
+  "paragraaf": "2.5",
+  "set": "extra"
+ },
+ {
+  "q": "Welke spier heeft als functie exorotatie, abductie en retroflexie in de heup, en wordt daarom vaak bij bilklachten benoemd?",
+  "options": [
+   "De m. quadratus lumborum",
+   "De m. piriformis",
+   "De m. popliteus"
+  ],
+  "correct": 1,
+  "bron": "§2.5.4, studieboek p. 32",
+  "pptx": true,
+  "paragraaf": "2.5",
+  "set": "extra"
  }
 ];
