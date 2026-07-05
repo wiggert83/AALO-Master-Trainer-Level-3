@@ -84,6 +84,18 @@
   .rank-bad { color:var(--incorrect); font-weight:700; }
   .rank-ok { color:var(--correct); font-weight:700; }
   .loading { text-align:center; color:var(--muted); padding:20px; }
+  /* Sidebar-instelling links onderin: toggle "automatisch door bij goed antwoord" */
+  .sidebar .settings { margin-top:auto; padding:16px 24px 0; }
+  .sidebar .settings hr { margin:0 0 14px; }
+  .setting-toggle { display:flex; align-items:center; gap:12px; cursor:pointer; user-select:none; }
+  .setting-toggle .toggle-label { font-size:0.85rem; line-height:1.3; color:var(--sidebar-text); }
+  .switch { position:relative; flex-shrink:0; width:42px; height:24px; }
+  .switch input { position:absolute; opacity:0; width:0; height:0; }
+  .switch .slider { position:absolute; inset:0; background:rgba(255,255,255,0.22); border-radius:24px; transition:background 0.18s ease; }
+  .switch .slider::before { content:""; position:absolute; height:18px; width:18px; left:3px; top:3px; background:#fff; border-radius:50%; transition:transform 0.18s ease; }
+  .switch input:checked + .slider { background:#6ea8dc; }
+  .switch input:checked + .slider::before { transform:translateX(18px); }
+  .switch input:focus-visible + .slider { outline:2px solid #cfe0f4; outline-offset:2px; }
   @media (max-width:720px) {
     body { flex-direction:column; }
     .sidebar { width:100%; flex-direction:row; overflow-x:auto; padding:12px 0; align-items:center; }
@@ -92,6 +104,9 @@
     .nav-item { width:auto; white-space:nowrap; border-left:none; border-bottom:3px solid transparent; padding:8px 16px; }
     .nav-item.active { border-left:none; border-bottom-color:#6ea8dc; }
     .nav-item .cnt { display:none; }
+    .sidebar .settings { margin-top:0; margin-left:auto; padding:0 16px; flex-shrink:0; }
+    .sidebar .settings hr { display:none; }
+    .setting-toggle .toggle-label { white-space:nowrap; font-size:0.78rem; }
   }
 </style>
 </head>
@@ -101,6 +116,16 @@
     <hr>
     <h2>Navigatie</h2>
     <div id="navItems"></div>
+    <div class="settings">
+      <hr>
+      <label class="setting-toggle" for="autoNext" title="Bij een goed antwoord automatisch door naar de volgende vraag. Bij een fout antwoord wacht de quiz tot je op Volgende klikt.">
+        <span class="switch">
+          <input type="checkbox" id="autoNext">
+          <span class="slider"></span>
+        </span>
+        <span class="toggle-label">Automatisch door bij goed antwoord</span>
+      </label>
+    </div>
   </nav>
   <div class="main">
     <div class="wrap">
@@ -125,6 +150,14 @@ let selMode = "basis";        // "basis" | "extra" | "alle"
 let quizCount = 0;            // aantal vragen deze poging
 let run = [], current = 0, score = 0, answered = false, history = [];
 
+/* ---------- Instelling: automatisch door bij goed antwoord ---------- */
+const AUTO_NEXT_KEY = "aalo_autonext";
+const AUTO_NEXT_DELAY = 700;   // ms pauze zodat de "Correct!"-bevestiging zichtbaar is
+let autoNext = false;          // standaard UIT
+let autoNextTimer = null;      // lopende timer voor automatisch doorgaan
+try { autoNext = localStorage.getItem(AUTO_NEXT_KEY) === "1"; } catch(e){}
+function clearAutoNext(){ if(autoNextTimer){ clearTimeout(autoNextTimer); autoNextTimer=null; } }
+
 function shuffle(arr){ const a=arr.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 
 /* ---------- Bootstrap: databestanden dynamisch laden ---------- */
@@ -138,8 +171,20 @@ async function boot(){
   }
   QUIZZES = window.AALO_MANIFEST;
   activeQuiz = QUIZZES[0];
+  initAutoNextToggle();
   renderNav();
   renderStart();
+}
+
+/* Koppel de sidebar-toggle aan de instelling + persistentie */
+function initAutoNextToggle(){
+  const cb=document.getElementById("autoNext");
+  if(!cb) return;
+  cb.checked=autoNext;
+  cb.addEventListener("change",()=>{
+    autoNext=cb.checked;
+    try { localStorage.setItem(AUTO_NEXT_KEY, autoNext?"1":"0"); } catch(e){}
+  });
 }
 
 /* ---------- Afgeleide gegevens uit de data ---------- */
@@ -166,6 +211,7 @@ function renderNav(){
   });
 }
 function selectQuiz(id){
+  clearAutoNext();
   activeQuiz=QUIZZES.find(q=>q.id===id)||QUIZZES[0];
   selParagraaf="all"; selMode="basis";
   renderNav(); renderStart();
@@ -174,6 +220,7 @@ function renderHead(){ pageHead.innerHTML="<h1>"+activeQuiz.title+"</h1><p>"+act
 
 /* ---------- Startscherm met filters ---------- */
 function renderStart(){
+  clearAutoNext();
   renderHead();
   const paras = paragraphsOf(activeQuiz);
   const extra = hasExtra(activeQuiz);
@@ -229,7 +276,14 @@ function buildRun(){
 }
 function startRun(){ run=buildRun(); current=0; score=0; answered=false; history=[]; renderQuestion(); }
 
+function goNext(){
+  clearAutoNext();
+  current++;
+  if(current<run.length) renderQuestion(); else renderResult();
+}
+
 function renderQuestion(){
+  clearAutoNext();
   answered=false;
   const item=run[current];
   const pct=Math.round((current/run.length)*100);
@@ -240,7 +294,7 @@ function renderQuestion(){
   const optionsEl=document.getElementById("options");
   item.options.forEach((opt,i)=>{ const div=document.createElement("div"); div.className="option";
     div.innerHTML='<span class="letter">'+letters[i]+'</span><span>'+opt+'</span>'; div.onclick=()=>selectAnswer(i); optionsEl.appendChild(div); });
-  document.getElementById("nextBtn").onclick=()=>{ current++; if(current<run.length) renderQuestion(); else renderResult(); };
+  document.getElementById("nextBtn").onclick=goNext;
 }
 
 function selectAnswer(i){
@@ -255,9 +309,15 @@ function selectAnswer(i){
     +(isCorrect?"Correct!":"Incorrect. Juiste antwoord: "+letters[item.correct]+" - "+item.options[item.correct])
     +(item.bron?'<span class="bron">Bron: '+item.bron+pptxB+setB+'</span>':(setB?'<span class="bron">'+setB+'</span>':''))+'</div>';
   document.getElementById("nextBtn").disabled=false;
+  // Automatisch door bij goed antwoord (toggle AAN). Bij fout: wachten op "Volgende".
+  if(isCorrect && autoNext){
+    clearAutoNext();
+    autoNextTimer=setTimeout(goNext, AUTO_NEXT_DELAY);
+  }
 }
 
 function renderResult(){
+  clearAutoNext();
   const pct=Math.round((score/run.length)*100);
   // per-paragraaf analyse
   const byPara={};
