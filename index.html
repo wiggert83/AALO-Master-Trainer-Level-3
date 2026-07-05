@@ -2,201 +2,1592 @@
 <html lang="nl">
 <head>
 <meta charset="UTF-8">
-<title>Oefenquiz - Theorie Examen (Menno Salzburg)</title>
+<title>AALO Oefenquizzen - Level 3 Master Trainer</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
   :root {
-    --bg: #f4f5f7;
-    --card: #ffffff;
-    --text: #1c1c1e;
-    --muted: #6b7280;
-    --accent: #1f3a5f;
-    --accent-light: #eef2f7;
-    --correct: #2f7d32;
-    --correct-bg: #e6f4ea;
-    --incorrect: #c62828;
-    --incorrect-bg: #fdecea;
-    --border: #e0e2e6;
+    --bg: #f4f5f7; --card: #ffffff; --text: #1c1c1e; --muted: #6b7280;
+    --accent: #1f3a5f; --accent-light: #eef2f7; --correct: #2f7d32;
+    --correct-bg: #e6f4ea; --incorrect: #c62828; --incorrect-bg: #fdecea;
+    --border: #e0e2e6; --sidebar: #1f3a5f; --sidebar-text: #dbe4f0;
   }
   * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
   body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    margin: 0;
-    padding: 24px 12px 60px;
-    display: flex;
-    justify-content: center;
+    background: var(--bg); color: var(--text);
+    display: flex; min-height: 100vh;
   }
+  /* ===== Navigatiepaneel ===== */
+  .sidebar {
+    width: 260px; flex-shrink: 0; background: var(--sidebar);
+    color: var(--sidebar-text); padding: 24px 0; display: flex; flex-direction: column;
+  }
+  .sidebar h2 {
+    font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;
+    color: #9fb3cc; margin: 0 0 12px; padding: 0 24px; font-weight: 700;
+  }
+  .sidebar .brand {
+    font-size: 1.05rem; font-weight: 700; color: #fff;
+    padding: 0 24px; margin-bottom: 6px;
+  }
+  .sidebar .brand small { display:block; font-size:0.72rem; font-weight:400; color:#9fb3cc; margin-top:2px; }
+  .sidebar hr { border: none; border-top: 1px solid rgba(255,255,255,0.12); margin: 18px 24px; }
+  .nav-item {
+    display: block; width: 100%; text-align: left; background: transparent;
+    border: none; color: var(--sidebar-text); font-family: inherit;
+    font-size: 0.95rem; font-weight: 500; padding: 12px 24px; cursor: pointer;
+    border-left: 3px solid transparent; transition: background 0.15s ease;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.06); }
+  .nav-item.active { background: rgba(255,255,255,0.12); border-left-color: #6ea8dc; color: #fff; font-weight: 600; }
+  .nav-item .cnt { float: right; font-size: 0.78rem; color: #9fb3cc; }
+  /* ===== Hoofdvenster ===== */
+  .main { flex: 1; display: flex; justify-content: center; padding: 32px 16px 60px; }
   .wrap { width: 100%; max-width: 720px; }
-  header {
-    text-align: center;
-    margin-bottom: 24px;
-  }
-  header h1 {
-    font-size: 1.4rem;
-    margin: 0 0 4px;
-    color: var(--accent);
-  }
-  header p { margin: 0; color: var(--muted); font-size: 0.9rem; }
-
+  header.page-head { text-align: center; margin-bottom: 24px; }
+  header.page-head h1 { font-size: 1.4rem; margin: 0 0 4px; color: var(--accent); }
+  header.page-head p { margin: 0; color: var(--muted); font-size: 0.9rem; }
   .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 24px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);
   }
-
-  .progress-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    font-size: 0.85rem;
-    color: var(--muted);
-  }
-  .progress-bar {
-    height: 6px;
-    background: var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-    margin-bottom: 20px;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--accent);
-    transition: width 0.25s ease;
-  }
-
-  .question-text {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 20px;
-    line-height: 1.4;
-  }
-
+  .progress-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; font-size: 0.85rem; color: var(--muted); }
+  .progress-bar { height: 6px; background: var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
+  .progress-fill { height: 100%; background: var(--accent); transition: width 0.25s ease; }
+  .question-text { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; line-height: 1.4; }
   .option {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease;
-    background: var(--accent-light);
+    display: flex; align-items: flex-start; gap: 12px; border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px; margin-bottom: 10px; cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease; background: var(--accent-light);
   }
   .option:hover { border-color: var(--accent); }
-  .option.selected { border-color: var(--accent); background: #e2e9f2; }
   .option.correct { background: var(--correct-bg); border-color: var(--correct); }
   .option.incorrect { background: var(--incorrect-bg); border-color: var(--incorrect); }
   .option.disabled { cursor: default; }
-  .option .letter {
-    font-weight: 700;
-    color: var(--accent);
-    min-width: 20px;
-  }
+  .option .letter { font-weight: 700; color: var(--accent); min-width: 20px; }
   .option.correct .letter { color: var(--correct); }
   .option.incorrect .letter { color: var(--incorrect); }
-
-  .feedback {
-    margin-top: 8px;
-    padding: 12px 14px;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 600;
-  }
+  .feedback { margin-top: 8px; padding: 12px 14px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; }
   .feedback.correct { background: var(--correct-bg); color: var(--correct); }
   .feedback.incorrect { background: var(--incorrect-bg); color: var(--incorrect); }
-
-  .actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
+  .feedback .bron { display:block; margin-top:6px; font-weight:400; font-size:0.8rem; color:var(--muted); }
+  .actions { display: flex; justify-content: flex-end; margin-top: 20px; }
+  button.btn {
+    font-family: inherit; font-size: 0.95rem; font-weight: 600; padding: 10px 22px;
+    border-radius: 8px; border: none; cursor: pointer; background: var(--accent); color: white; transition: opacity 0.15s ease;
   }
-  button {
-    font-family: inherit;
-    font-size: 0.95rem;
-    font-weight: 600;
-    padding: 10px 22px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    background: var(--accent);
-    color: white;
-    transition: opacity 0.15s ease;
-  }
-  button:disabled { opacity: 0.4; cursor: not-allowed; }
-  button.secondary {
-    background: transparent;
-    color: var(--accent);
-    border: 1px solid var(--accent);
-  }
-
-  .result-score {
-    font-size: 2.4rem;
-    font-weight: 700;
-    text-align: center;
-    color: var(--accent);
-    margin: 8px 0 4px;
-  }
-  .result-sub {
-    text-align: center;
-    color: var(--muted);
-    margin-bottom: 20px;
-  }
-  .review-item {
-    border-top: 1px solid var(--border);
-    padding: 14px 0;
-  }
+  button.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  button.btn.secondary { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .result-score { font-size: 2.4rem; font-weight: 700; text-align: center; color: var(--accent); margin: 8px 0 4px; }
+  .result-sub { text-align: center; color: var(--muted); margin-bottom: 20px; }
+  .review-item { border-top: 1px solid var(--border); padding: 14px 0; }
   .review-item .q { font-weight: 600; margin-bottom: 6px; }
   .review-item .a { font-size: 0.9rem; margin: 2px 0; }
   .review-item .a.correct { color: var(--correct); }
   .review-item .a.incorrect { color: var(--incorrect); text-decoration: line-through; }
-
+  .review-item .bron { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
   .start-screen { text-align: center; }
   .start-screen p { color: var(--muted); line-height: 1.5; }
+  .opt-row { display:flex; justify-content:center; gap:8px; flex-wrap:wrap; margin:16px 0; align-items:center; }
+  .opt-row button.btn.secondary.active { background: var(--accent); color:#fff; }
+  /* mobiel */
+  @media (max-width: 720px) {
+    body { flex-direction: column; }
+    .sidebar { width: 100%; flex-direction: row; overflow-x: auto; padding: 12px 0; align-items: center; }
+    .sidebar h2, .sidebar hr, .sidebar .brand small { display: none; }
+    .sidebar .brand { font-size: 0.95rem; white-space: nowrap; }
+    .nav-item { width: auto; white-space: nowrap; border-left: none; border-bottom: 3px solid transparent; padding: 8px 16px; }
+    .nav-item.active { border-left: none; border-bottom-color: #6ea8dc; }
+    .nav-item .cnt { display: none; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>Oefenquiz - Level 3 Master Trainer</h1>
-    <p>Theorie examen (bron: Menno Salzburg proefexamen)</p>
-  </header>
-  <div class="card" id="app"></div>
-</div>
+  <nav class="sidebar">
+    <div class="brand">AALO Oefenquizzen<small>Level 3 Master Trainer</small></div>
+    <hr>
+    <h2>Navigatie</h2>
+    <div id="navItems"></div>
+  </nav>
+  <div class="main">
+    <div class="wrap">
+      <header class="page-head" id="pageHead"></header>
+      <div class="card" id="app"></div>
+    </div>
+  </div>
 
 <script>
-const QUESTIONS = [
-  { q: "Wat is de energie/brandstofopslag voor spiervezeltype 1 (slow twitch)?", options: ["CP + glycogeen", "Vetzuren", "Eiwitten"], correct: 1 },
-  { q: "Wat is een voorbeeld van een open vraag?", options: ["Beide antwoorden zijn juist", "Wat voelde je toen?", "Heb je weleens eerder gesport?"], correct: 1 },
-  { q: "Wat is waar met betrekking tot het ademhalingssysteem?", options: ["De primaire functie is het uitwisselen van alleen zuurstof", "De primaire functie is het uitwisselen van zuurstof en koolstofdioxide", "De primaire functie is het uitwisselen van alleen koolstofdioxide"], correct: 1 },
-  { q: "De fitnessinstructeur heeft kennis van de volgende specifieke taken:", options: ["Het plannen, instrueren en evalueren van veilige trainingsprogramma's in een fitnessruimte", "Beide antwoorden zijn juist", "Het maken van een trainingsprogramma waarin oefeningen worden gekozen die veilig zijn en passen bij het niveau van de klant"], correct: 1 },
-  { q: "Welke oefening hoort thuis in een coretraining in de technische fase?", options: ["Farmer Walk", "Medicine Ball Chest Pass", "Bridge"], correct: 2 },
-  { q: "Wat is het doel van de sprinttest?", options: ["Het testen van kracht", "Het testen van snelheid", "Het testen van het uithoudingsvermogen"], correct: 1 },
-  { q: "In de spiercel bevindt zich celvocht, ook wel...", options: ["sacroplasma", "fasciculi", "sacrolemma"], correct: 0 },
-  { q: "Wat is een bursitis?", options: ["Peesontsteking", "Slijmbeursontsteking", "Ontsteking van de gewrichten"], correct: 1 },
-  { q: "Welke doelstelling heb je als trainer voor je klant gesteld als je wilt dat de klant zich dient te kunnen uiten tijdens het trainen in het fitnesssegment?", options: ["Psychomotorische doelstelling", "Cognitieve doelstelling", "Sociaal-affectieve doelstelling"], correct: 2 },
-  { q: "Hoe noemen we de knoop waar de prikkel iets vertraagt voordat hij wordt doorgestuurd naar de ventrikels?", options: ["Atrioventriculaire knoop", "Atrioventriculaire bundel", "Sinusknoop"], correct: 0 },
-  { q: "Wat is intramusculaire coördinatie?", options: ["De samenwerking van de spiervezels binnen in een spier", "Beide antwoorden zijn juist", "De samenwerking tussen spieren"], correct: 0 },
-  { q: "De STARR-methode: de S staat voor Situatie. Wat wordt hiermee bedoeld?", options: ["Wat was het doel?", "Je wilt een helder beeld krijgen van de situatie", "Hoe werd de oefening uitgevoerd?"], correct: 1 },
-  { q: "In het schoudergewricht kun je de beweging anteflexie maken. Tot hoeveel graden spreken we van anteflexie?", options: ["80-90 graden", "60 graden", "90-100 graden"], correct: 2 },
-  { q: "Welke oefening hoort thuis in een coretraining in de belastingsfase?", options: ["Dead Bug", "Medicine Ball Throw Down", "Pallof Press - verticaal"], correct: 2 },
-  { q: "Met de bouwsteen tempo/tijd bepaalt de trainer hoelang de oefening wordt uitgevoerd en hoelang de wissel duurt. Wat betekent het als we in een tempo 4-2-0-1 bewegen?", options: ["Concentrisch - isometrisch - excentrisch - isometrisch", "Excentrisch - isometrisch - concentrisch - isometrisch", "Excentrisch - isometrisch - statisch - isometrisch"], correct: 1 },
-  { q: "Wat is normaalkracht?", options: ["Een aantrekkende kracht die twee massa's op elkaar uitoefent", "De eigenschap van een spier om weerstand te bieden aan in- en uitwendige krachten door middel van haar contractiele vermogen", "Deze kracht zorgt ervoor dat we op de aardkorst aanwezig blijven ondanks het feit dat de aarde ons naar haar centrum trekt"], correct: 2 },
-  { q: "Welke klep (of welke kleppen) zorgt (zorgen) ervoor dat het bloed van de ventrikels niet terugstroomt in de atria?", options: ["Beide antwoorden zijn juist", "De bicuspidalisklep (mitralis)", "De tricuspidalisklep"], correct: 0 },
-  { q: "Welke spier hoort bij het bewegingssysteem van de bovenste extremiteiten van de core?", options: ["M. quadratus lumborum", "M. interspinalis", "M. rhomboideus"], correct: 2 },
-  { q: "Welke klacht wordt hier beschreven: door genetische bepaling of een overbelasting van het enkelgewricht vindt kraakbeenslijtage plaats. De beschermlaag van het bot is dan weg.", options: ["Inversietrauma", "Enkelartrose", "Voetbalenkel"], correct: 1 },
-  { q: "Hoe noemen we de vetten ontstaan in het proces waarbij vloeibare olien worden gehard om ze te kunnen gebruiken bij voedselproductie? Denk aan harde margarines en frituurvet, maar ook aan koekjes of gebaksoorten.", options: ["Onverzadigde vetten", "Transvetten", "Verzadigde vetten"], correct: 1 },
-  { q: "Noem een voorbeeld van epitheelweefsel.", options: ["Huid", "Kraakbeen", "Bloed"], correct: 0 },
-  { q: "De vezels van skeletspieren hebben allemaal dezelfde dikte maar niet dezelfde lengte. Wat is waar?", options: ["Hoe langer de vezels, hoe meer ze kunnen verkorten", "Hoe langer de vezels, hoe meer ze kunnen verlengen", "Hoe korter de vezels, hoe meer ze kunnen verkorten"], correct: 0 },
-  { q: "Welke klacht wordt hier beschreven: een zenuwaandoening waarbij de nervus medianus beklemd raakt door een vernauwing in de carpale tunnel?", options: ["Carpale tunnel syndroom", "Tenniselleboog", "Golfelleboog"], correct: 0 },
-  { q: "Maak de zin af. Een teveel aan eiwitten (bij een positieve energiebalans) zal worden opgeslagen als...", options: ["Eiwitten", "Koolhydraten", "Vet"], correct: 2 },
-  { q: "Welk zenuwstelsel heeft betrekking op alle processen die het evenwicht van stoffen in het lichaam bewaken?", options: ["Motorisch zenuwstelsel", "Vegetatief zenuwstelsel", "Somatisch zenuwstelsel"], correct: 1 }
+/* ============================================================
+   QUIZZES: elke quiz is een pagina in het navigatievenster.
+   Nieuwe gegenereerde quiz toevoegen? Voeg een object toe met:
+   { id, nav, title, subtitle, intro, questions:[{q,options,correct,bron?}] }
+   Het navigatie-item en de pagina worden dan automatisch aangemaakt.
+   ============================================================ */
+const QUIZZES = [
+  {
+    "id": "menno",
+    "nav": "Oefentoets Menno",
+    "title": "Oefentoets Menno",
+    "subtitle": "Theorie examen (bron: Menno Salzburg proefexamen)",
+    "intro": "24 oefenvragen uit het proefexamen. Vragen en antwoordopties worden elke poging in willekeurige volgorde getoond.",
+    "questions": [
+      {
+        "q": "Wat is de energie/brandstofopslag voor spiervezeltype 1 (slow twitch)?",
+        "options": [
+          "CP + glycogeen",
+          "Vetzuren",
+          "Eiwitten"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "Wat is een voorbeeld van een open vraag?",
+        "options": [
+          "Beide antwoorden zijn juist",
+          "Wat voelde je toen?",
+          "Heb je weleens eerder gesport?"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "Wat is waar met betrekking tot het ademhalingssysteem?",
+        "options": [
+          "De primaire functie is het uitwisselen van alleen zuurstof",
+          "De primaire functie is het uitwisselen van zuurstof en koolstofdioxide",
+          "De primaire functie is het uitwisselen van alleen koolstofdioxide"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "De fitnessinstructeur heeft kennis van de volgende specifieke taken:",
+        "options": [
+          "Het plannen, instrueren en evalueren van veilige trainingsprogramma's in een fitnessruimte",
+          "Beide antwoorden zijn juist",
+          "Het maken van een trainingsprogramma waarin oefeningen worden gekozen die veilig zijn en passen bij het niveau van de klant"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "Welke oefening hoort thuis in een coretraining in de technische fase?",
+        "options": [
+          "Farmer Walk",
+          "Medicine Ball Chest Pass",
+          "Bridge"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "Wat is het doel van de sprinttest?",
+        "options": [
+          "Het testen van kracht",
+          "Het testen van snelheid",
+          "Het testen van het uithoudingsvermogen"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "In de spiercel bevindt zich celvocht, ook wel...",
+        "options": [
+          "sacroplasma",
+          "fasciculi",
+          "sacrolemma"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Wat is een bursitis?",
+        "options": [
+          "Peesontsteking",
+          "Slijmbeursontsteking",
+          "Ontsteking van de gewrichten"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "Welke doelstelling heb je als trainer voor je klant gesteld als je wilt dat de klant zich dient te kunnen uiten tijdens het trainen in het fitnesssegment?",
+        "options": [
+          "Psychomotorische doelstelling",
+          "Cognitieve doelstelling",
+          "Sociaal-affectieve doelstelling"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "Hoe noemen we de knoop waar de prikkel iets vertraagt voordat hij wordt doorgestuurd naar de ventrikels?",
+        "options": [
+          "Atrioventriculaire knoop",
+          "Atrioventriculaire bundel",
+          "Sinusknoop"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Wat is intramusculaire coördinatie?",
+        "options": [
+          "De samenwerking van de spiervezels binnen in een spier",
+          "Beide antwoorden zijn juist",
+          "De samenwerking tussen spieren"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "De STARR-methode: de S staat voor Situatie. Wat wordt hiermee bedoeld?",
+        "options": [
+          "Wat was het doel?",
+          "Je wilt een helder beeld krijgen van de situatie",
+          "Hoe werd de oefening uitgevoerd?"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "In het schoudergewricht kun je de beweging anteflexie maken. Tot hoeveel graden spreken we van anteflexie?",
+        "options": [
+          "80-90 graden",
+          "60 graden",
+          "90-100 graden"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "Welke oefening hoort thuis in een coretraining in de belastingsfase?",
+        "options": [
+          "Dead Bug",
+          "Medicine Ball Throw Down",
+          "Pallof Press - verticaal"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "Met de bouwsteen tempo/tijd bepaalt de trainer hoelang de oefening wordt uitgevoerd en hoelang de wissel duurt. Wat betekent het als we in een tempo 4-2-0-1 bewegen?",
+        "options": [
+          "Concentrisch - isometrisch - excentrisch - isometrisch",
+          "Excentrisch - isometrisch - concentrisch - isometrisch",
+          "Excentrisch - isometrisch - statisch - isometrisch"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "Wat is normaalkracht?",
+        "options": [
+          "Een aantrekkende kracht die twee massa's op elkaar uitoefent",
+          "De eigenschap van een spier om weerstand te bieden aan in- en uitwendige krachten door middel van haar contractiele vermogen",
+          "Deze kracht zorgt ervoor dat we op de aardkorst aanwezig blijven ondanks het feit dat de aarde ons naar haar centrum trekt"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "Welke klep (of welke kleppen) zorgt (zorgen) ervoor dat het bloed van de ventrikels niet terugstroomt in de atria?",
+        "options": [
+          "Beide antwoorden zijn juist",
+          "De bicuspidalisklep (mitralis)",
+          "De tricuspidalisklep"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Welke spier hoort bij het bewegingssysteem van de bovenste extremiteiten van de core?",
+        "options": [
+          "M. quadratus lumborum",
+          "M. interspinalis",
+          "M. rhomboideus"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "Welke klacht wordt hier beschreven: door genetische bepaling of een overbelasting van het enkelgewricht vindt kraakbeenslijtage plaats. De beschermlaag van het bot is dan weg.",
+        "options": [
+          "Inversietrauma",
+          "Enkelartrose",
+          "Voetbalenkel"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "Hoe noemen we de vetten ontstaan in het proces waarbij vloeibare olien worden gehard om ze te kunnen gebruiken bij voedselproductie? Denk aan harde margarines en frituurvet, maar ook aan koekjes of gebaksoorten.",
+        "options": [
+          "Onverzadigde vetten",
+          "Transvetten",
+          "Verzadigde vetten"
+        ],
+        "correct": 1
+      },
+      {
+        "q": "Noem een voorbeeld van epitheelweefsel.",
+        "options": [
+          "Huid",
+          "Kraakbeen",
+          "Bloed"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "De vezels van skeletspieren hebben allemaal dezelfde dikte maar niet dezelfde lengte. Wat is waar?",
+        "options": [
+          "Hoe langer de vezels, hoe meer ze kunnen verkorten",
+          "Hoe langer de vezels, hoe meer ze kunnen verlengen",
+          "Hoe korter de vezels, hoe meer ze kunnen verkorten"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Welke klacht wordt hier beschreven: een zenuwaandoening waarbij de nervus medianus beklemd raakt door een vernauwing in de carpale tunnel?",
+        "options": [
+          "Carpale tunnel syndroom",
+          "Tenniselleboog",
+          "Golfelleboog"
+        ],
+        "correct": 0
+      },
+      {
+        "q": "Maak de zin af. Een teveel aan eiwitten (bij een positieve energiebalans) zal worden opgeslagen als...",
+        "options": [
+          "Eiwitten",
+          "Koolhydraten",
+          "Vet"
+        ],
+        "correct": 2
+      },
+      {
+        "q": "Welk zenuwstelsel heeft betrekking op alle processen die het evenwicht van stoffen in het lichaam bewaken?",
+        "options": [
+          "Motorisch zenuwstelsel",
+          "Vegetatief zenuwstelsel",
+          "Somatisch zenuwstelsel"
+        ],
+        "correct": 1
+      }
+    ]
+  },
+  {
+    "id": "h2_anatomie",
+    "nav": "Oefenvragen H2_Anatomie",
+    "title": "Oefenvragen H2 Anatomie",
+    "subtitle": "AALO Fitness Master (Level 3) · studieboek hoofdstuk 2",
+    "intro": "121 oefenvragen over Hoofdstuk 2 (Anatomie): skeletleer, histologie, myologie, het bewegingsapparaat (ROM-graden) en de aanvullende spieren. Na elk antwoord zie je de bronvindplaats in het studieboek.",
+    "questions": [
+      {
+        "q": "Wat is de belangrijkste functie van de schedel en de wervelkolom samen?",
+        "options": [
+          "Zij vormen een harde barrière die het centrale zenuwstelsel tegen letsel beschermt",
+          "Zij zorgen voor de aanmaak van rode bloedcellen",
+          "Zij regelen de ventilatie van de luchtwegen"
+        ],
+        "correct": 0,
+        "bron": "§2.1.1, studieboek p. 8"
+      },
+      {
+        "q": "Wat zorgt bij de schedel en wervelkolom voor schokabsorptie van het centrale zenuwstelsel?",
+        "options": [
+          "Het ribkraakbeen tussen de wervels",
+          "Een met vloeistof gevulde ruimte onder de botten",
+          "De tussenwervelgaten aan de rugzijde"
+        ],
+        "correct": 1,
+        "bron": "§2.1.1, studieboek p. 8"
+      },
+      {
+        "q": "Uit welke twee delen bestaat het centrale zenuwstelsel?",
+        "options": [
+          "De hersenen en de zenuwen",
+          "Het ruggenmerg en de zenuwbanen",
+          "De hersenen en het ruggenmerg"
+        ],
+        "correct": 2,
+        "bron": "§2.1.1, studieboek p. 8"
+      },
+      {
+        "q": "Uit hoeveel cervicale wervels (halswervels) bestaat de wervelkolom?",
+        "options": [
+          "7",
+          "12",
+          "5"
+        ],
+        "correct": 0,
+        "bron": "§2.1.2, studieboek p. 8"
+      },
+      {
+        "q": "Uit hoeveel thoracale wervels (borstwervels) bestaat de wervelkolom?",
+        "options": [
+          "7",
+          "12",
+          "5"
+        ],
+        "correct": 1,
+        "bron": "§2.1.2, studieboek p. 8"
+      },
+      {
+        "q": "Uit hoeveel lumbale wervels (lendenwervels) bestaat de wervelkolom?",
+        "options": [
+          "7",
+          "12",
+          "5"
+        ],
+        "correct": 2,
+        "bron": "§2.1.2, studieboek p. 8"
+      },
+      {
+        "q": "Uit hoeveel vergroeide wervels bestaat het os sacrum (heiligbeen)?",
+        "options": [
+          "5",
+          "4",
+          "7"
+        ],
+        "correct": 0,
+        "bron": "§2.1.2, studieboek p. 8"
+      },
+      {
+        "q": "Uit hoeveel vergroeide wervels bestaat het os coccygis (staartbeen)?",
+        "options": [
+          "5",
+          "4",
+          "3"
+        ],
+        "correct": 1,
+        "bron": "§2.1.2, studieboek p. 8"
+      },
+      {
+        "q": "Hoe wordt een natuurlijke holling van de wervelkolom genoemd?",
+        "options": [
+          "Kyfose",
+          "Scoliose",
+          "Lordose"
+        ],
+        "correct": 2,
+        "bron": "§2.1.2, studieboek p. 8"
+      },
+      {
+        "q": "Hoe wordt een natuurlijke bolling van de wervelkolom genoemd?",
+        "options": [
+          "Kyfose",
+          "Lordose",
+          "Scoliose"
+        ],
+        "correct": 0,
+        "bron": "§2.1.2, studieboek p. 8"
+      },
+      {
+        "q": "Uit welke twee gedeelten bestaat een wervel globaal?",
+        "options": [
+          "Het wervelgat en het doornuitsteeksel",
+          "Het wervellichaam en de wervelboog",
+          "De tussenwervelschijf en het wervelkanaal"
+        ],
+        "correct": 1,
+        "bron": "§2.1.3, studieboek p. 9"
+      },
+      {
+        "q": "Welke uitsteeksels bezit de wervelboog?",
+        "options": [
+          "Twee doornuitsteeksels en één dwarsuitsteeksel",
+          "Drie dwarsuitsteeksels",
+          "Twee dwarsuitsteeksels en één doornuitsteeksel"
+        ],
+        "correct": 2,
+        "bron": "§2.1.3, studieboek p. 9"
+      },
+      {
+        "q": "Wat bevindt zich tussen twee wervellichamen?",
+        "options": [
+          "De tussenwervelschijf",
+          "Het tussenwervelgat",
+          "Het doornuitsteeksel"
+        ],
+        "correct": 0,
+        "bron": "§2.1.3, studieboek p. 9"
+      },
+      {
+        "q": "Hoe wordt de bovenste halswervel (C1), die de schedel ondersteunt, genoemd?",
+        "options": [
+          "De draaier (axis)",
+          "De atlas",
+          "Het os sacrum"
+        ],
+        "correct": 1,
+        "bron": "§2.1.4, studieboek p. 10"
+      },
+      {
+        "q": "Hoe wordt de tweede halswervel (C2) genoemd?",
+        "options": [
+          "De atlas",
+          "Het os coccygis",
+          "De axis of de draaier"
+        ],
+        "correct": 2,
+        "bron": "§2.1.4, studieboek p. 10"
+      },
+      {
+        "q": "Hoeveel ribben telt het menselijk skelet?",
+        "options": [
+          "24 (twaalf paar)",
+          "12 (zes paar)",
+          "20 (tien paar)"
+        ],
+        "correct": 0,
+        "bron": "§2.1.5, studieboek p. 10-11"
+      },
+      {
+        "q": "Welke ribben worden de 'ware ribben' genoemd?",
+        "options": [
+          "De achtste, negende en tiende rib",
+          "De eerste tot en met de zevende rib (direct met het borstbeen verbonden)",
+          "De elfde en twaalfde rib"
+        ],
+        "correct": 1,
+        "bron": "§2.1.5, studieboek p. 11"
+      },
+      {
+        "q": "Welke ribben worden de 'valse ribben' genoemd?",
+        "options": [
+          "De eerste tot en met de zevende rib",
+          "De elfde en twaalfde rib",
+          "De achtste, negende en tiende rib (indirect via ribkraakbeen van de zevende rib)"
+        ],
+        "correct": 2,
+        "bron": "§2.1.5, studieboek p. 11"
+      },
+      {
+        "q": "Welke ribben worden de 'zwevende ribben' genoemd?",
+        "options": [
+          "De elfde en twaalfde rib (niet aan de voorzijde verbonden)",
+          "De achtste, negende en tiende rib",
+          "De eerste en tweede rib"
+        ],
+        "correct": 0,
+        "bron": "§2.1.5, studieboek p. 11"
+      },
+      {
+        "q": "Hoe wordt het borstbeen anatomisch genoemd?",
+        "options": [
+          "Os costae",
+          "Os sternum",
+          "Os coxae"
+        ],
+        "correct": 1,
+        "bron": "§2.1.5, studieboek p. 10-11"
+      },
+      {
+        "q": "Welke afwijking wordt hier beschreven: een te grote bolling in de bovenrug?",
+        "options": [
+          "Hyperlordose",
+          "Scoliose",
+          "Hyperkyfose"
+        ],
+        "correct": 2,
+        "bron": "§2.1.6, studieboek p. 11-12"
+      },
+      {
+        "q": "Welke afwijking wordt hier beschreven: een te holle onderrug?",
+        "options": [
+          "Hyperlordose",
+          "Hyperkyfose",
+          "Scoliose"
+        ],
+        "correct": 0,
+        "bron": "§2.1.6, studieboek p. 11-12"
+      },
+      {
+        "q": "Welke afwijking wordt hier beschreven: een abnormale zijwaartse kromming van de wervelkolom?",
+        "options": [
+          "Hyperlordose",
+          "Scoliose",
+          "Hyperkyfose"
+        ],
+        "correct": 1,
+        "bron": "§2.1.6, studieboek p. 12"
+      },
+      {
+        "q": "Welke aandoening wordt hier beschreven: de tussenwervelschijf stulpt uit waardoor zenuwen bekneld kunnen raken?",
+        "options": [
+          "Osteoporose",
+          "Scoliose",
+          "Hernia nuclei pulposi (HNP)"
+        ],
+        "correct": 2,
+        "bron": "§2.1.6, studieboek p. 12"
+      },
+      {
+        "q": "Wat is osteoporose?",
+        "options": [
+          "Botontkalking: afname van de botdichtheid en botmassa",
+          "Een zijwaartse kromming van de wervelkolom",
+          "Een uitstulping van de tussenwervelschijf"
+        ],
+        "correct": 0,
+        "bron": "§2.1.6, studieboek p. 12-13"
+      },
+      {
+        "q": "Welke cellen zorgen voor botafbraak?",
+        "options": [
+          "Osteoblasten",
+          "Osteoclasten",
+          "Epitheelcellen"
+        ],
+        "correct": 1,
+        "bron": "§2.1.6, studieboek p. 13"
+      },
+      {
+        "q": "Welke cellen zorgen voor botopbouw?",
+        "options": [
+          "Osteoclasten",
+          "Bloedplaatjes",
+          "Osteoblasten"
+        ],
+        "correct": 2,
+        "bron": "§2.1.6, studieboek p. 13"
+      },
+      {
+        "q": "Wat is histologie?",
+        "options": [
+          "De leer van de weefsels; de microanatomie van biologische weefsels onder de microscoop",
+          "De leer van de spieren en hun functies",
+          "De leer van de gewrichten en hun beweeglijkheid"
+        ],
+        "correct": 0,
+        "bron": "§2.2, studieboek p. 14"
+      },
+      {
+        "q": "Uit welke verhouding is bloed samengesteld?",
+        "options": [
+          "45% bloedplasma en 55% bloedcellen",
+          "55% bloedplasma en 45% bloedcellen",
+          "90% bloedplasma en 10% bloedcellen"
+        ],
+        "correct": 1,
+        "bron": "§2.2.1, studieboek p. 14"
+      },
+      {
+        "q": "Voor welk deel bestaat het bloedplasma uit water?",
+        "options": [
+          "55%",
+          "45%",
+          "90%"
+        ],
+        "correct": 2,
+        "bron": "§2.2.1, studieboek p. 14"
+      },
+      {
+        "q": "Wat is de hoofdfunctie van de rode bloedcellen?",
+        "options": [
+          "Zuurstof vervoeren (gebonden aan het eiwit hemoglobine)",
+          "Zorgen voor de afweer tegen bacteriën en virussen",
+          "Zorgen voor de bloedstolling bij een wondje"
+        ],
+        "correct": 0,
+        "bron": "§2.2.1, studieboek p. 15"
+      },
+      {
+        "q": "Wat is de hoofdfunctie van de witte bloedcellen?",
+        "options": [
+          "Zuurstof vervoeren via hemoglobine",
+          "Zorgen voor de afweer door bacteriën en virussen te bestrijden",
+          "Zorgen voor de bloedstolling"
+        ],
+        "correct": 1,
+        "bron": "§2.2.1, studieboek p. 15"
+      },
+      {
+        "q": "Wat is de hoofdfunctie van de bloedplaatjes?",
+        "options": [
+          "Zuurstof vervoeren via hemoglobine",
+          "Bacteriën en virussen bestrijden",
+          "Zorgen voor de stolling van het bloed, bijvoorbeeld bij een wondje"
+        ],
+        "correct": 2,
+        "bron": "§2.2.1, studieboek p. 15"
+      },
+      {
+        "q": "Welk hormoon, dat in de nieren wordt aangemaakt tijdens hoogtestage, stimuleert de aanmaak van rode bloedcellen?",
+        "options": [
+          "Erytropoëtine (EPO)",
+          "Testosteron",
+          "Hemoglobine"
+        ],
+        "correct": 0,
+        "bron": "§2.2.1, studieboek p. 15-16"
+      },
+      {
+        "q": "Welke van deze is een functie van het lymfestelsel?",
+        "options": [
+          "Het rondpompen van zuurstofrijk bloed",
+          "Het afvoeren van ophopend vocht uit de weefsels",
+          "Het aanmaken van rode bloedcellen"
+        ],
+        "correct": 1,
+        "bron": "§2.2.2, studieboek p. 16"
+      },
+      {
+        "q": "Hoe wordt epitheelweefsel ook wel genoemd?",
+        "options": [
+          "Steunweefsel",
+          "Bindweefsel",
+          "Dekweefsel"
+        ],
+        "correct": 2,
+        "bron": "§2.2.3, studieboek p. 16"
+      },
+      {
+        "q": "Noem een voorbeeld van epitheelweefsel.",
+        "options": [
+          "Huid",
+          "Kraakbeen",
+          "Bloed"
+        ],
+        "correct": 0,
+        "bron": "§2.2.3, studieboek p. 16"
+      },
+      {
+        "q": "Welke drie typen steunweefsel onderscheiden we?",
+        "options": [
+          "Epitheel-, spier- en zenuwweefsel",
+          "Bindweefsel, kraakbeenweefsel en botweefsel",
+          "Vezelig, elastisch en losmazig weefsel"
+        ],
+        "correct": 1,
+        "bron": "§2.2.3, studieboek p. 16-17"
+      },
+      {
+        "q": "Waar bevindt zich vezelig kraakbeen?",
+        "options": [
+          "In het oor en de neus",
+          "Aan de uiteinden in de gewrichten",
+          "In de tussenwervelschijven"
+        ],
+        "correct": 2,
+        "bron": "§2.2.3, studieboek p. 17"
+      },
+      {
+        "q": "Waar bevindt zich hyalien kraakbeen?",
+        "options": [
+          "Aan de uiteinden in de gewrichten en in de wand van de luchtpijp",
+          "In de tussenwervelschijven",
+          "In het oor en de neus"
+        ],
+        "correct": 0,
+        "bron": "§2.2.3, studieboek p. 17"
+      },
+      {
+        "q": "Wat is waar met betrekking tot kraakbeenweefsel als steunweefsel?",
+        "options": [
+          "Kraakbeen wordt als enige steunweefsel wél door bloedvaten gevoed",
+          "Door kraakbeen lopen geen bloedvaten (in tegenstelling tot ander steunweefsel)",
+          "Kraakbeen is een vorm van epitheelweefsel"
+        ],
+        "correct": 1,
+        "bron": "§2.2.3, studieboek p. 17"
+      },
+      {
+        "q": "Op welke basis kunnen skeletspieren onder meer ingedeeld worden?",
+        "options": [
+          "Kleur, temperatuur en gewicht",
+          "Bloedtoevoer, lymfeafvoer en zenuwtype",
+          "Ligging, functie, vorm, aantal koppen en passering van het aantal gewrichten"
+        ],
+        "correct": 2,
+        "bron": "§2.3.1, studieboek p. 17-18"
+      },
+      {
+        "q": "Wat kenmerkt een niet-gevederde spier?",
+        "options": [
+          "De spiervezels lopen parallel (recht) aan de spierpezen",
+          "De spiervezels staan onder een bepaalde hoek tussen origo en insertie",
+          "De spiervezels lopen dwars op de pees in twee richtingen"
+        ],
+        "correct": 0,
+        "bron": "§2.3.3, studieboek p. 18"
+      },
+      {
+        "q": "Wat kenmerkt een gevederde spier?",
+        "options": [
+          "De spiervezels lopen parallel aan de spierpezen",
+          "De spiervezels staan tussen origo en insertie onder een bepaalde hoek",
+          "De spier bezit geen spierpezen"
+        ],
+        "correct": 1,
+        "bron": "§2.3.3, studieboek p. 18"
+      },
+      {
+        "q": "Wat is de stelregel voor de krachtontwikkeling van niet-gevederde spieren?",
+        "options": [
+          "Hoe langer de spier, hoe groter de maximale krachtontwikkeling",
+          "Hoe dunner de spier, hoe groter de maximale krachtontwikkeling",
+          "Hoe dikker de spier, hoe groter de maximale krachtontwikkeling"
+        ],
+        "correct": 2,
+        "bron": "§2.3.3, studieboek p. 18-19"
+      },
+      {
+        "q": "Wat is een nadeel van gevederde spieren ten opzichte van niet-gevederde spieren?",
+        "options": [
+          "Zij hebben een kleiner bewegingstraject (kortere spierverkorting)",
+          "Zij kunnen minder kracht ontwikkelen",
+          "Zij nemen meer ruimte in beslag"
+        ],
+        "correct": 0,
+        "bron": "§2.3.3, studieboek p. 19"
+      },
+      {
+        "q": "Wat is actieve insufficiëntie van een spier?",
+        "options": [
+          "De spier is volledig verlengd en verhindert het bewegingsbereik",
+          "De spier is te ver verkort om nog veel kracht te kunnen leveren",
+          "De spier kan geen prikkel meer ontvangen van de zenuw"
+        ],
+        "correct": 1,
+        "bron": "§2.3.4, studieboek p. 19"
+      },
+      {
+        "q": "Wat is passieve insufficiëntie van een spier?",
+        "options": [
+          "De spier is te ver verkort om nog kracht te leveren",
+          "De spier kan zich niet meer ontspannen",
+          "De spier wordt volledig verlengd waardoor het volledige bewegingsbereik verhinderd wordt"
+        ],
+        "correct": 2,
+        "bron": "§2.3.4, studieboek p. 19-20"
+      },
+      {
+        "q": "Wat zijn bi-articulaire spieren?",
+        "options": [
+          "Spieren die over twee gewrichten lopen",
+          "Spieren die uit twee spierbuiken bestaan",
+          "Spieren die aan twee kanten aan hetzelfde bot vastzitten"
+        ],
+        "correct": 0,
+        "bron": "§2.3.4, studieboek p. 19"
+      },
+      {
+        "q": "Van welk verschijnsel is de m. gastrocnemius bij de seated calf raise een voorbeeld?",
+        "options": [
+          "Passieve insufficiëntie",
+          "Actieve insufficiëntie",
+          "Isokinetische contractie"
+        ],
+        "correct": 1,
+        "bron": "§2.3.4, studieboek p. 20"
+      },
+      {
+        "q": "Hoe wordt een statische contractie ook wel genoemd?",
+        "options": [
+          "Isotonische contractie",
+          "Isokinetische contractie",
+          "Isometrische contractie"
+        ],
+        "correct": 2,
+        "bron": "§2.3.5, studieboek p. 21"
+      },
+      {
+        "q": "Wat gebeurt er bij een statische (isometrische) contractie?",
+        "options": [
+          "De spier levert kracht zonder dat er beweging plaatsvindt; de lengte blijft gelijk",
+          "De spier wordt korter tijdens de krachtlevering",
+          "De spier wordt langer tijdens de krachtlevering"
+        ],
+        "correct": 0,
+        "bron": "§2.3.5, studieboek p. 21"
+      },
+      {
+        "q": "Hoe wordt een dynamische contractie ook wel genoemd?",
+        "options": [
+          "Isometrische contractie",
+          "Isotonische contractie",
+          "Isokinetische contractie"
+        ],
+        "correct": 1,
+        "bron": "§2.3.5, studieboek p. 21"
+      },
+      {
+        "q": "Wat gebeurt er bij een concentrische contractie?",
+        "options": [
+          "De spier wordt langer; de weerstand is groter dan de spierkracht",
+          "De spierlengte blijft gelijk",
+          "De spier wordt korter; de spierkracht is groter dan de weerstand"
+        ],
+        "correct": 2,
+        "bron": "§2.3.5, studieboek p. 21"
+      },
+      {
+        "q": "Wat gebeurt er bij een excentrische contractie?",
+        "options": [
+          "De spier wordt langer; de weerstand is groter dan de spierkracht (meeste schade aan spiervezels)",
+          "De spier wordt korter; de spierkracht is groter dan de weerstand",
+          "De spierlengte blijft gelijk"
+        ],
+        "correct": 0,
+        "bron": "§2.3.5, studieboek p. 22"
+      },
+      {
+        "q": "Wat kenmerkt een isokinetische contractie?",
+        "options": [
+          "De lengte van de spier blijft gelijk tijdens de krachtlevering",
+          "De snelheid van de concentrische beweging blijft gelijk, ongeacht de geleverde kracht",
+          "De spanning op de spier verdwijnt volledig"
+        ],
+        "correct": 1,
+        "bron": "§2.3.5, studieboek p. 21"
+      },
+      {
+        "q": "Van welk type contractie is de m. rectus abdominis tijdens een plank een voorbeeld?",
+        "options": [
+          "Concentrische contractie",
+          "Excentrische contractie",
+          "Statische (isometrische) contractie"
+        ],
+        "correct": 2,
+        "bron": "§2.3.5, studieboek p. 21"
+      },
+      {
+        "q": "Uit welke twee filamenten is een sarcomeer opgebouwd?",
+        "options": [
+          "Actine en myosine",
+          "Actine en hemoglobine",
+          "Myosine en collageen"
+        ],
+        "correct": 0,
+        "bron": "§2.3.5, studieboek p. 20-21"
+      },
+      {
+        "q": "Welke drie typen hefbomen onderscheiden we in het lichaam?",
+        "options": [
+          "Kracht-, snelheids- en afstandshefbomen",
+          "Eerste, tweede en derde klasse hefbomen",
+          "Statische, dynamische en isokinetische hefbomen"
+        ],
+        "correct": 1,
+        "bron": "§2.3.6, studieboek p. 22"
+      },
+      {
+        "q": "Wanneer is er sprake van een krachtvergroter?",
+        "options": [
+          "Als de lastarm (Larm) groter is dan de machtarm (Marm)",
+          "Als de machtarm en lastarm even lang zijn",
+          "Als de machtarm (Marm) groter is dan de lastarm (Larm)"
+        ],
+        "correct": 2,
+        "bron": "§2.3.6, studieboek p. 22"
+      },
+      {
+        "q": "Wanneer is er sprake van een afstandsvergroter?",
+        "options": [
+          "Als de lastarm (Larm) groter is dan de machtarm (Marm)",
+          "Als de machtarm (Marm) groter is dan de lastarm (Larm)",
+          "Als het draaipunt tussen macht en last ligt"
+        ],
+        "correct": 0,
+        "bron": "§2.3.6, studieboek p. 22"
+      },
+      {
+        "q": "Wat kenmerkt een eerste klasse hefboom?",
+        "options": [
+          "De last ligt tussen de macht en het draaipunt in",
+          "Het draaipunt ligt tussen de macht en de last in",
+          "De macht ligt tussen het draaipunt en de last in"
+        ],
+        "correct": 1,
+        "bron": "§2.3.6, studieboek p. 23"
+      },
+      {
+        "q": "Wat geldt altijd voor een tweede klasse hefboom?",
+        "options": [
+          "Het is altijd een afstandsvergroter",
+          "Het draaipunt ligt altijd tussen macht en last",
+          "Het is altijd een krachtvergroter (Marm langer dan Larm)"
+        ],
+        "correct": 2,
+        "bron": "§2.3.6, studieboek p. 23"
+      },
+      {
+        "q": "Wat geldt altijd voor een derde klasse hefboom (zoals de m. biceps brachii bij de elleboog)?",
+        "options": [
+          "Het is altijd een afstandsvergroter (Marm kleiner dan Larm)",
+          "Het is altijd een krachtvergroter",
+          "De Marm is altijd langer dan de Larm"
+        ],
+        "correct": 0,
+        "bron": "§2.3.6, studieboek p. 24"
+      },
+      {
+        "q": "Maak de zin af: elke spierbuik wordt omgeven door een stevig bindweefselvlies, het …",
+        "options": [
+          "perimysium",
+          "epimysium",
+          "endomysium"
+        ],
+        "correct": 1,
+        "bron": "§2.3.7, studieboek p. 24"
+      },
+      {
+        "q": "Maak de zin af: elke spierbundel wordt omgeven door een bindweefselvlies, het …",
+        "options": [
+          "epimysium",
+          "endomysium",
+          "perimysium"
+        ],
+        "correct": 2,
+        "bron": "§2.3.7, studieboek p. 24"
+      },
+      {
+        "q": "Maak de zin af: elke spiervezel wordt omgeven door een bindweefselvliesje, het …",
+        "options": [
+          "endomysium",
+          "epimysium",
+          "perimysium"
+        ],
+        "correct": 0,
+        "bron": "§2.3.7, studieboek p. 24"
+      },
+      {
+        "q": "Hoe wordt het celmembraan dat de spiervezel omgeeft genoemd?",
+        "options": [
+          "Endomysium",
+          "Sarcolemma",
+          "Sarcomeer"
+        ],
+        "correct": 1,
+        "bron": "§2.3.7, studieboek p. 24"
+      },
+      {
+        "q": "Wat wordt bedoeld met de bewegingsmogelijkheid van een gewricht?",
+        "options": [
+          "De uiterste standen van een gewricht, uitgedrukt in graden per beweging",
+          "De soepelheid of rekbaarheid van een spier",
+          "De verschillende bewegingen die mogelijk zijn in een gewricht, gebaseerd op de vlakken of assen"
+        ],
+        "correct": 2,
+        "bron": "§2.4.1, studieboek p. 25"
+      },
+      {
+        "q": "Wat wordt bedoeld met de beweeglijkheid van een gewricht?",
+        "options": [
+          "De uiterste standen van een gewricht, uitgedrukt in graden per beweging",
+          "De verschillende bewegingen die in een gewricht mogelijk zijn",
+          "De soepelheid of rekbaarheid van een spier"
+        ],
+        "correct": 0,
+        "bron": "§2.4.1, studieboek p. 25"
+      },
+      {
+        "q": "Wat wordt bedoeld met lenigheid?",
+        "options": [
+          "De uiterste standen van een gewricht in graden",
+          "De soepelheid of rekbaarheid van een spier(groep)",
+          "De totale beweeglijkheid van een gewricht tijdens een totaalbeweging"
+        ],
+        "correct": 1,
+        "bron": "§2.4.1, studieboek p. 25"
+      },
+      {
+        "q": "Wat wordt bedoeld met de mobiliteit van een gewricht?",
+        "options": [
+          "De soepelheid of rekbaarheid van een enkele spier",
+          "De uiterste stand van één enkele beweging in graden",
+          "De totale beweeglijkheid van een gewricht tijdens een totaalbeweging (meerdere bewegingen tegelijk)"
+        ],
+        "correct": 2,
+        "bron": "§2.4.1, studieboek p. 25"
+      },
+      {
+        "q": "Tot hoeveel graden is plantairflexie mogelijk in het enkelgewricht?",
+        "options": [
+          "40-50 graden",
+          "20-30 graden",
+          "10-20 graden"
+        ],
+        "correct": 0,
+        "bron": "§2.4.2, studieboek p. 26"
+      },
+      {
+        "q": "Tot hoeveel graden is dorsaalflexie mogelijk in het enkelgewricht?",
+        "options": [
+          "40-50 graden",
+          "20-30 graden",
+          "10-20 graden"
+        ],
+        "correct": 1,
+        "bron": "§2.4.2, studieboek p. 26"
+      },
+      {
+        "q": "Tot hoeveel graden is inversie mogelijk in het onderste spronggewricht?",
+        "options": [
+          "10-20 graden",
+          "40-50 graden",
+          "20-30 graden"
+        ],
+        "correct": 2,
+        "bron": "§2.4.2, studieboek p. 26"
+      },
+      {
+        "q": "Tot hoeveel graden is eversie mogelijk in het onderste spronggewricht?",
+        "options": [
+          "10-20 graden",
+          "20-30 graden",
+          "40-50 graden"
+        ],
+        "correct": 0,
+        "bron": "§2.4.2, studieboek p. 26"
+      },
+      {
+        "q": "Tot hoeveel graden is flexie mogelijk in het kniegewricht?",
+        "options": [
+          "90 graden",
+          "135 graden",
+          "45 graden"
+        ],
+        "correct": 1,
+        "bron": "§2.4.2, studieboek p. 27"
+      },
+      {
+        "q": "Tot hoeveel graden is hyperextensie (overstrekking) mogelijk in het kniegewricht?",
+        "options": [
+          "15 graden",
+          "45 graden",
+          "5 graden"
+        ],
+        "correct": 2,
+        "bron": "§2.4.2, studieboek p. 27"
+      },
+      {
+        "q": "Tot hoeveel graden is exorotatie mogelijk in het kniegewricht (bij 90 graden buiging)?",
+        "options": [
+          "45 graden",
+          "15 graden",
+          "5 graden"
+        ],
+        "correct": 0,
+        "bron": "§2.4.2, studieboek p. 27"
+      },
+      {
+        "q": "Tot hoeveel graden is endorotatie mogelijk in het kniegewricht (bij 90 graden buiging)?",
+        "options": [
+          "45 graden",
+          "15 graden",
+          "5 graden"
+        ],
+        "correct": 1,
+        "bron": "§2.4.2, studieboek p. 27"
+      },
+      {
+        "q": "Tot hoeveel graden is anteflexie mogelijk in het heupgewricht?",
+        "options": [
+          "80 graden",
+          "20-40 graden",
+          "120-140 graden"
+        ],
+        "correct": 2,
+        "bron": "§2.4.2, studieboek p. 27"
+      },
+      {
+        "q": "Tot hoeveel graden is retroflexie mogelijk in het heupgewricht?",
+        "options": [
+          "20-30 graden",
+          "120-140 graden",
+          "80 graden"
+        ],
+        "correct": 0,
+        "bron": "§2.4.2, studieboek p. 27"
+      },
+      {
+        "q": "Tot hoeveel graden is abductie mogelijk in het heupgewricht?",
+        "options": [
+          "20-40 graden",
+          "80 graden",
+          "120-140 graden"
+        ],
+        "correct": 1,
+        "bron": "§2.4.2, studieboek p. 27"
+      },
+      {
+        "q": "Tot hoeveel graden is adductie mogelijk in het heupgewricht?",
+        "options": [
+          "80 graden",
+          "120-140 graden",
+          "20-40 graden"
+        ],
+        "correct": 2,
+        "bron": "§2.4.2, studieboek p. 27"
+      },
+      {
+        "q": "Tot hoeveel graden is endorotatie mogelijk in het heupgewricht?",
+        "options": [
+          "50 graden",
+          "40 graden",
+          "80 graden"
+        ],
+        "correct": 0,
+        "bron": "§2.4.2, studieboek p. 27"
+      },
+      {
+        "q": "Tot hoeveel graden is exorotatie mogelijk in het heupgewricht?",
+        "options": [
+          "50 graden",
+          "40 graden",
+          "80 graden"
+        ],
+        "correct": 1,
+        "bron": "§2.4.2, studieboek p. 27"
+      },
+      {
+        "q": "Tot hoeveel graden is anteflexie mogelijk in het glenohumeraal gewricht?",
+        "options": [
+          "80-90 graden",
+          "60 graden",
+          "90-100 graden"
+        ],
+        "correct": 2,
+        "bron": "§2.4.3, studieboek p. 28"
+      },
+      {
+        "q": "Tot hoeveel graden is retroflexie mogelijk in het glenohumeraal gewricht?",
+        "options": [
+          "60 graden",
+          "90-100 graden",
+          "75 graden"
+        ],
+        "correct": 0,
+        "bron": "§2.4.3, studieboek p. 28"
+      },
+      {
+        "q": "Tot hoeveel graden is abductie mogelijk in het glenohumeraal gewricht?",
+        "options": [
+          "90-100 graden",
+          "80-90 graden",
+          "75 graden"
+        ],
+        "correct": 1,
+        "bron": "§2.4.3, studieboek p. 28"
+      },
+      {
+        "q": "Tot hoeveel graden is adductie mogelijk in het glenohumeraal gewricht?",
+        "options": [
+          "60 graden",
+          "90-100 graden",
+          "75 graden"
+        ],
+        "correct": 2,
+        "bron": "§2.4.3, studieboek p. 28"
+      },
+      {
+        "q": "Tot hoeveel graden is exorotatie (en endorotatie) mogelijk in het glenohumeraal gewricht?",
+        "options": [
+          "90 graden",
+          "60 graden",
+          "75 graden"
+        ],
+        "correct": 0,
+        "bron": "§2.4.3, studieboek p. 28"
+      },
+      {
+        "q": "Uit welke drie gewrichten bestaat de schoudergordel?",
+        "options": [
+          "Glenohumeraal, sternoclaviculair en costovertebraal gewricht",
+          "Glenohumeraal (GH), scapulothoracaal (ST) en acromioclaviculair (AC) gewricht",
+          "Scapulothoracaal, humeroradiaal en acromioclaviculair gewricht"
+        ],
+        "correct": 1,
+        "bron": "§2.4.3, studieboek p. 27"
+      },
+      {
+        "q": "Uit welke botstukken bestaat het kniegewricht?",
+        "options": [
+          "Os femur, os fibula en os patella",
+          "Os tibia, os fibula en os talus",
+          "Os femur, os tibia en os patella"
+        ],
+        "correct": 2,
+        "bron": "§2.4.2, studieboek p. 26"
+      },
+      {
+        "q": "Uit welke botstukken is het enkelgewricht opgebouwd?",
+        "options": [
+          "Het onderste en het bovenste spronggewricht",
+          "Het os femur en het os tibia",
+          "Het os coxae en het os femur"
+        ],
+        "correct": 0,
+        "bron": "§2.4.2, studieboek p. 26"
+      },
+      {
+        "q": "Uit welke botstukken bestaat het heupgewricht?",
+        "options": [
+          "Os femur en os tibia",
+          "Os coxae en os femur",
+          "Os humerus en os scapula"
+        ],
+        "correct": 1,
+        "bron": "§2.4.2, studieboek p. 27"
+      },
+      {
+        "q": "Uit welke botstukken bestaat het glenohumeraal gewricht?",
+        "options": [
+          "Os humerus en os clavicula",
+          "Os scapula en os sternum",
+          "Os humerus en os scapula"
+        ],
+        "correct": 2,
+        "bron": "§2.4.3, studieboek p. 27"
+      },
+      {
+        "q": "Tot hoeveel graden is ventraalflexie mogelijk in de cervicale wervelkolom?",
+        "options": [
+          "65 graden",
+          "85 graden",
+          "40 graden"
+        ],
+        "correct": 0,
+        "bron": "§2.4.4, studieboek p. 28"
+      },
+      {
+        "q": "Tot hoeveel graden is ventraalflexie mogelijk in de thoracale en lumbale wervelkolom?",
+        "options": [
+          "65 graden",
+          "85 graden",
+          "30 graden"
+        ],
+        "correct": 1,
+        "bron": "§2.4.4, studieboek p. 28"
+      },
+      {
+        "q": "Wat is de origo (oorsprong) van de m. quadratus lumborum?",
+        "options": [
+          "Os sacrum",
+          "Os sternum en os clavicula",
+          "Os ilium"
+        ],
+        "correct": 2,
+        "bron": "§2.5.1, studieboek p. 29"
+      },
+      {
+        "q": "Wat is de insertie (aanhechting) van de m. quadratus lumborum?",
+        "options": [
+          "L1 tot L4 en de 12e rib",
+          "De trochanter van os femur",
+          "Os talus en os calcaneus"
+        ],
+        "correct": 0,
+        "bron": "§2.5.1, studieboek p. 29"
+      },
+      {
+        "q": "Wat is de functie van de m. quadratus lumborum?",
+        "options": [
+          "Exorotatie in de heup",
+          "Lateraalflexie van de wervelkolom",
+          "Plantairflexie in de enkel"
+        ],
+        "correct": 1,
+        "bron": "§2.5.1, studieboek p. 29"
+      },
+      {
+        "q": "Wat is de functie van de m. multifidus?",
+        "options": [
+          "Plantairflexie en supinatie in het enkelgewricht",
+          "Exorotatie en abductie in de heup",
+          "Dorsaalflexie, lateraalflexie, torsie en stabilisatie van de wervelkolom"
+        ],
+        "correct": 2,
+        "bron": "§2.5.1, studieboek p. 29"
+      },
+      {
+        "q": "Wat is de origo van de m. sternocleidomastoideus?",
+        "options": [
+          "Os sternum en os clavicula",
+          "C3 tot C7",
+          "Os ilium"
+        ],
+        "correct": 0,
+        "bron": "§2.5.2, studieboek p. 30"
+      },
+      {
+        "q": "Wat is de insertie van de m. sternocleidomastoideus?",
+        "options": [
+          "De 1e tot 3e costae",
+          "Het cranium (lateraal)",
+          "L1 tot L4 en de 12e rib"
+        ],
+        "correct": 1,
+        "bron": "§2.5.2, studieboek p. 30"
+      },
+      {
+        "q": "Wat is bij tweezijdige contractie de functie van de m. sternocleidomastoideus?",
+        "options": [
+          "Dorsaalflexie van de thoracale wervelkolom",
+          "Exorotatie in de heup",
+          "Ventraalflexie van de cervicale wervelkolom"
+        ],
+        "correct": 2,
+        "bron": "§2.5.2, studieboek p. 30"
+      },
+      {
+        "q": "Wat is de origo van de mm. scaleni?",
+        "options": [
+          "C3 tot C7",
+          "Os sternum en os clavicula",
+          "Os fibula"
+        ],
+        "correct": 0,
+        "bron": "§2.5.2, studieboek p. 30"
+      },
+      {
+        "q": "Wat is de insertie van de mm. scaleni?",
+        "options": [
+          "Het cranium (ventraal)",
+          "De 1e tot 3e costae (ribben)",
+          "Os tibia"
+        ],
+        "correct": 1,
+        "bron": "§2.5.2, studieboek p. 30"
+      },
+      {
+        "q": "Wat is de functie van de mm. scaleni?",
+        "options": [
+          "Plantairflexie in het enkelgewricht",
+          "Flexie in de knie",
+          "Dorsaalflexie, rotatie en lateraalflexie van de nek"
+        ],
+        "correct": 2,
+        "bron": "§2.5.2, studieboek p. 30"
+      },
+      {
+        "q": "Wat is de functie van de m. longus colli?",
+        "options": [
+          "Ventraalflexie, lateraalflexie en rotatie van de nek",
+          "Exorotatie in de heup",
+          "Plantairflexie in de enkel"
+        ],
+        "correct": 0,
+        "bron": "§2.5.2, studieboek p. 30"
+      },
+      {
+        "q": "Wat is de insertie van de m. longus capitis?",
+        "options": [
+          "De 1e tot 3e costae",
+          "Het cranium (ventraal)",
+          "Os tibia en os fibula"
+        ],
+        "correct": 1,
+        "bron": "§2.5.2, studieboek p. 31"
+      },
+      {
+        "q": "Wat is de origo van de m. tibialis posterior?",
+        "options": [
+          "Os femur (lateraal)",
+          "Os sacrum",
+          "Os tibia en os fibula"
+        ],
+        "correct": 2,
+        "bron": "§2.5.3, studieboek p. 31"
+      },
+      {
+        "q": "Wat is de functie van de m. tibialis posterior?",
+        "options": [
+          "Plantairflexie en supinatie in het enkelgewricht",
+          "Plantairflexie en pronatie in het enkelgewricht",
+          "Flexie en interne rotatie in de knie"
+        ],
+        "correct": 0,
+        "bron": "§2.5.3, studieboek p. 31"
+      },
+      {
+        "q": "Wat is de functie van de m. peroneus longus?",
+        "options": [
+          "Plantairflexie en supinatie in het enkelgewricht",
+          "Plantairflexie en pronatie in het enkelgewricht",
+          "Exorotatie en abductie in de heup"
+        ],
+        "correct": 1,
+        "bron": "§2.5.3, studieboek p. 31"
+      },
+      {
+        "q": "Wat is de origo van de m. peroneus longus?",
+        "options": [
+          "Os femur (lateraal)",
+          "Os ilium",
+          "Os fibula"
+        ],
+        "correct": 2,
+        "bron": "§2.5.3, studieboek p. 31"
+      },
+      {
+        "q": "Wat is de functie van de m. plantaris?",
+        "options": [
+          "Flexie in de knie en plantairflexie in de enkel",
+          "Plantairflexie en pronatie in het enkelgewricht",
+          "Exorotatie en retroflexie in de heup"
+        ],
+        "correct": 0,
+        "bron": "§2.5.3, studieboek p. 32"
+      },
+      {
+        "q": "Wat is de origo van de m. plantaris?",
+        "options": [
+          "Os tibia en os fibula",
+          "Os femur (lateraal)",
+          "Os sacrum"
+        ],
+        "correct": 1,
+        "bron": "§2.5.3, studieboek p. 32"
+      },
+      {
+        "q": "Wat is de functie van de m. popliteus?",
+        "options": [
+          "Plantairflexie en supinatie in het enkelgewricht",
+          "Exorotatie en abductie in de heup",
+          "Flexie in de knie en interne rotatie in de knie"
+        ],
+        "correct": 2,
+        "bron": "§2.5.3, studieboek p. 32"
+      },
+      {
+        "q": "Wat is de insertie van de m. popliteus?",
+        "options": [
+          "Os tibia",
+          "Os calcaneus (via de achillespees)",
+          "De trochanter van os femur"
+        ],
+        "correct": 0,
+        "bron": "§2.5.3, studieboek p. 32"
+      },
+      {
+        "q": "Wat is de origo van de m. piriformis?",
+        "options": [
+          "Os ilium",
+          "Os sacrum",
+          "Os femur (lateraal)"
+        ],
+        "correct": 1,
+        "bron": "§2.5.4, studieboek p. 32"
+      },
+      {
+        "q": "Wat is de insertie van de m. piriformis?",
+        "options": [
+          "Os tibia",
+          "Het cranium (lateraal)",
+          "De trochanter van os femur"
+        ],
+        "correct": 2,
+        "bron": "§2.5.4, studieboek p. 32"
+      },
+      {
+        "q": "Wat is de functie van de m. piriformis?",
+        "options": [
+          "Exorotatie, abductie en retroflexie in de heup",
+          "Flexie en interne rotatie in de knie",
+          "Lateraalflexie van de wervelkolom"
+        ],
+        "correct": 0,
+        "bron": "§2.5.4, studieboek p. 32"
+      }
+    ]
+  }
 ];
+
+const letters = ["A", "B", "C", "D"];
+const app = document.getElementById("app");
+const pageHead = document.getElementById("pageHead");
+const navItems = document.getElementById("navItems");
+
+let activeQuiz = QUIZZES[0];
+let quizCount = activeQuiz.questions.length;
+let run = [], current = 0, score = 0, answered = false, history = [];
 
 function shuffle(arr) {
   const a = arr.slice();
@@ -207,40 +1598,66 @@ function shuffle(arr) {
   return a;
 }
 
-// Prepare a randomized run: shuffle question order, and shuffle option order per question
 function buildRun() {
-  const order = shuffle(QUESTIONS.map((_, i) => i));
+  let order = shuffle(activeQuiz.questions.map((_, i) => i)).slice(0, quizCount);
   return order.map(idx => {
-    const orig = QUESTIONS[idx];
+    const orig = activeQuiz.questions[idx];
     const optIdx = shuffle(orig.options.map((_, i) => i));
     const options = optIdx.map(i => orig.options[i]);
     const correct = optIdx.indexOf(orig.correct);
-    return { q: orig.q, options, correct };
+    return { q: orig.q, options, correct, bron: orig.bron || "" };
   });
 }
 
-let run = buildRun();
-let current = 0;
-let score = 0;
-let answered = false;
-let history = [];
+function renderNav() {
+  navItems.innerHTML = "";
+  QUIZZES.forEach(qz => {
+    const b = document.createElement("button");
+    b.className = "nav-item" + (qz.id === activeQuiz.id ? " active" : "");
+    b.innerHTML = `${qz.nav}<span class="cnt">${qz.questions.length}</span>`;
+    b.onclick = () => selectQuiz(qz.id);
+    navItems.appendChild(b);
+  });
+}
 
-const letters = ["A", "B", "C", "D"];
-const app = document.getElementById("app");
+function selectQuiz(id) {
+  activeQuiz = QUIZZES.find(q => q.id === id) || QUIZZES[0];
+  quizCount = activeQuiz.questions.length;
+  renderNav();
+  renderStart();
+}
+
+function renderHead() {
+  pageHead.innerHTML = `<h1>${activeQuiz.title}</h1><p>${activeQuiz.subtitle}</p>`;
+}
 
 function renderStart() {
+  renderHead();
+  const total = activeQuiz.questions.length;
+  const presets = [20, 40].filter(n => n < total);
+  const presetBtns = presets.map(n => `<button class="btn secondary" data-n="${n}">${n}</button>`).join("");
   app.innerHTML = `
     <div class="start-screen">
-      <p><strong>${QUESTIONS.length} vragen</strong> uit het theorie-examen.<br>
-      Vragen en antwoordopties worden elke poging in willekeurige volgorde getoond.<br>
-      Na elk antwoord zie je direct of het klopt.</p>
+      <p>${activeQuiz.intro}<br>Na elk antwoord zie je direct of het klopt.</p>
+      <div class="opt-row" id="countRow">
+        <span style="color:var(--muted);font-size:0.85rem;">Aantal vragen:</span>
+        ${presetBtns}
+        <button class="btn secondary active" data-n="${total}">Alle (${total})</button>
+      </div>
       <div class="actions" style="justify-content:center;">
-        <button id="startBtn">Start oefenquiz</button>
+        <button class="btn" id="startBtn">Start oefenquiz</button>
       </div>
     </div>`;
+  const row = document.getElementById("countRow");
+  row.querySelectorAll("button").forEach(b => {
+    b.onclick = () => {
+      row.querySelectorAll("button").forEach(x => x.classList.remove("active"));
+      b.classList.add("active");
+      quizCount = parseInt(b.dataset.n, 10);
+    };
+  });
   document.getElementById("startBtn").onclick = () => {
-    run = buildRun();
-    current = 0; score = 0; answered = false; history = [];
+    run = buildRun(); current = 0; score = 0; answered = false; history = [];
     renderQuestion();
   };
 }
@@ -259,9 +1676,8 @@ function renderQuestion() {
     <div id="options"></div>
     <div id="feedback"></div>
     <div class="actions">
-      <button id="nextBtn" disabled>Volgende</button>
+      <button class="btn" id="nextBtn" disabled>${current + 1 < run.length ? "Volgende" : "Bekijk resultaat"}</button>
     </div>`;
-
   const optionsEl = document.getElementById("options");
   item.options.forEach((opt, i) => {
     const div = document.createElement("div");
@@ -270,11 +1686,9 @@ function renderQuestion() {
     div.onclick = () => selectAnswer(i);
     optionsEl.appendChild(div);
   });
-
   document.getElementById("nextBtn").onclick = () => {
     current++;
-    if (current < run.length) renderQuestion();
-    else renderResult();
+    if (current < run.length) renderQuestion(); else renderResult();
   };
 }
 
@@ -284,47 +1698,44 @@ function selectAnswer(i) {
   const item = run[current];
   const isCorrect = i === item.correct;
   if (isCorrect) score++;
-  history.push({ q: item.q, options: item.options, chosen: i, correct: item.correct });
-
-  const opts = document.querySelectorAll(".option");
-  opts.forEach((el, idx) => {
+  history.push({ q: item.q, options: item.options, chosen: i, correct: item.correct, bron: item.bron });
+  document.querySelectorAll(".option").forEach((el, idx) => {
     el.classList.add("disabled");
     if (idx === item.correct) el.classList.add("correct");
     if (idx === i && !isCorrect) el.classList.add("incorrect");
   });
-
-  const fb = document.getElementById("feedback");
-  fb.innerHTML = `<div class="feedback ${isCorrect ? "correct" : "incorrect"}">
+  document.getElementById("feedback").innerHTML = `<div class="feedback ${isCorrect ? "correct" : "incorrect"}">
     ${isCorrect ? "Correct!" : "Incorrect. Juiste antwoord: " + letters[item.correct] + " - " + item.options[item.correct]}
+    ${item.bron ? `<span class="bron">Bron: ${item.bron}</span>` : ""}
   </div>`;
-
   document.getElementById("nextBtn").disabled = false;
 }
 
 function renderResult() {
   const pct = Math.round((score / run.length) * 100);
-  let reviewHtml = history.map((h, i) => `
+  const reviewHtml = history.map((h, i) => `
     <div class="review-item">
       <div class="q">${i + 1}. ${h.q}</div>
       <div class="a ${h.chosen === h.correct ? "correct" : "incorrect"}">Jouw antwoord: ${letters[h.chosen]} - ${h.options[h.chosen]}</div>
       ${h.chosen !== h.correct ? `<div class="a correct">Juist antwoord: ${letters[h.correct]} - ${h.options[h.correct]}</div>` : ""}
+      ${h.bron ? `<div class="bron">Bron: ${h.bron}</div>` : ""}
     </div>`).join("");
-
   app.innerHTML = `
     <div class="result-score">${score} / ${run.length}</div>
     <div class="result-sub">${pct}% correct</div>
     <div class="actions" style="justify-content:center; gap:10px;">
-      <button id="retryBtn">Opnieuw oefenen</button>
+      <button class="btn" id="retryBtn">Opnieuw oefenen</button>
+      <button class="btn secondary" id="homeBtn">Naar startscherm</button>
     </div>
     <div style="margin-top:24px;">${reviewHtml}</div>`;
-
   document.getElementById("retryBtn").onclick = () => {
-    run = buildRun();
-    current = 0; score = 0; answered = false; history = [];
+    run = buildRun(); current = 0; score = 0; answered = false; history = [];
     renderQuestion();
   };
+  document.getElementById("homeBtn").onclick = renderStart;
 }
 
+renderNav();
 renderStart();
 </script>
 </body>
