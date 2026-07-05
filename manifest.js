@@ -75,6 +75,36 @@ window.AALO_MANIFEST = [
     }
   },
   {
+    "id": "h7_intake",
+    "nav": "Oefenvragen H7_Intake",
+    "title": "Oefenvragen H7 Intake, testen en meten",
+    "subtitle": "AALO Fitness Master (Level 3) · studieboek hoofdstuk 7 – intake, testen en meten",
+    "intro": "Oefenvragen over Hoofdstuk 7 (Intake, testen en meten). Kies een paragraaf en een oefenmodus. Het label \"Ook in pptx\" betekent dat het onderwerp ook in de lespresentaties terugkomt.",
+    "file": "data/h7.js",
+    "paragraafLabels": {
+      "7.1": "Intakegesprek",
+      "7.2": "Beginsituatie",
+      "7.3": "Gezondheidsformulieren",
+      "7.4": "Intakeformulier",
+      "7.5": "Doelstellingen (SMART)",
+      "7.6": "Lichaamssamenstelling",
+      "7.7": "Testen en meten"
+    }
+  },
+  {
+    "id": "h8_coaching",
+    "nav": "Oefenvragen H8_Coaching",
+    "title": "Oefenvragen H8 Coaching en klantbegeleiding",
+    "subtitle": "AALO Fitness Master (Level 3) · studieboek hoofdstuk 8 – coaching en klantbegeleiding",
+    "intro": "Oefenvragen over Hoofdstuk 8 (Coaching en klantbegeleiding). Kies een paragraaf en een oefenmodus. Het label \"Ook in pptx\" betekent dat het onderwerp ook in de lespresentaties terugkomt.",
+    "file": "data/h8.js",
+    "paragraafLabels": {
+      "8.1": "Communiceren",
+      "8.2": "Gesprekstechnieken",
+      "8.3": "Customer service"
+    }
+  },
+  {
     "id": "h9_blessures",
     "nav": "Oefenvragen H9_Blessures",
     "title": "Oefenvragen H9 Differentiaties en blessures",
