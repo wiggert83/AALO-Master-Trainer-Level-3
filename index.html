@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Oefenquiz - Theorie Examen (Menno Salzburg)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #ffffff;
+    --text: #1c1c1e;
+    --muted: #6b7280;
+    --accent: #1f3a5f;
+    --accent-light: #eef2f7;
+    --correct: #2f7d32;
+    --correct-bg: #e6f4ea;
+    --incorrect: #c62828;
+    --incorrect-bg: #fdecea;
+    --border: #e0e2e6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 24px 12px 60px;
+    display: flex;
+    justify-content: center;
+  }
+  .wrap { width: 100%; max-width: 720px; }
+  header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  header h1 {
+    font-size: 1.4rem;
+    margin: 0 0 4px;
+    color: var(--accent);
+  }
+  header p { margin: 0; color: var(--muted); font-size: 0.9rem; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .progress-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  .progress-bar {
+    height: 6px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.25s ease;
+  }
+
+  .question-text {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+    background: var(--accent-light);
+  }
+  .option:hover { border-color: var(--accent); }
+  .option.selected { border-color: var(--accent); background: #e2e9f2; }
+  .option.correct { background: var(--correct-bg); border-color: var(--correct); }
+  .option.incorrect { background: var(--incorrect-bg); border-color: var(--incorrect); }
+  .option.disabled { cursor: default; }
+  .option .letter {
+    font-weight: 700;
+    color: var(--accent);
+    min-width: 20px;
+  }
+  .option.correct .letter { color: var(--correct); }
+  .option.incorrect .letter { color: var(--incorrect); }
+
+  .feedback {
+    margin-top: 8px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .feedback.correct { background: var(--correct-bg); color: var(--correct); }
+  .feedback.incorrect { background: var(--incorrect-bg); color: var(--incorrect); }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+  }
+  button {
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: var(--accent);
+    color: white;
+    transition: opacity 0.15s ease;
+  }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  button.secondary {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+
+  .result-score {
+    font-size: 2.4rem;
+    font-weight: 700;
+    text-align: center;
+    color: var(--accent);
+    margin: 8px 0 4px;
+  }
+  .result-sub {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  .review-item {
+    border-top: 1px solid var(--border);
+    padding: 14px 0;
+  }
+  .review-item .q { font-weight: 600; margin-bottom: 6px; }
+  .review-item .a { font-size: 0.9rem; margin: 2px 0; }
+  .review-item .a.correct { color: var(--correct); }
+  .review-item .a.incorrect { color: var(--incorrect); text-decoration: line-through; }
+
+  .start-screen { text-align: center; }
+  .start-screen p { color: var(--muted); line-height: 1.5; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Oefenquiz - Level 3 Master Trainer</h1>
+    <p>Theorie examen (bron: Menno Salzburg proefexamen)</p>
+  </header>
+  <div class="card" id="app"></div>
+</div>
+
+<script>
+const QUESTIONS = [
+  { q: "Wat is de energie/brandstofopslag voor spiervezeltype 1 (slow twitch)?", options: ["CP + glycogeen", "Vetzuren", "Eiwitten"], correct: 1 },
+  { q: "Wat is een voorbeeld van een open vraag?", options: ["Beide antwoorden zijn juist", "Wat voelde je toen?", "Heb je weleens eerder gesport?"], correct: 1 },
+  { q: "Wat is waar met betrekking tot het ademhalingssysteem?", options: ["De primaire functie is het uitwisselen van alleen zuurstof", "De primaire functie is het uitwisselen van zuurstof en koolstofdioxide", "De primaire functie is het uitwisselen van alleen koolstofdioxide"], correct: 1 },
+  { q: "De fitnessinstructeur heeft kennis van de volgende specifieke taken:", options: ["Het plannen, instrueren en evalueren van veilige trainingsprogramma's in een fitnessruimte", "Beide antwoorden zijn juist", "Het maken van een trainingsprogramma waarin oefeningen worden gekozen die veilig zijn en passen bij het niveau van de klant"], correct: 1 },
+  { q: "Welke oefening hoort thuis in een coretraining in de technische fase?", options: ["Farmer Walk", "Medicine Ball Chest Pass", "Bridge"], correct: 2 },
+  { q: "Wat is het doel van de sprinttest?", options: ["Het testen van kracht", "Het testen van snelheid", "Het testen van het uithoudingsvermogen"], correct: 1 },
+  { q: "In de spiercel bevindt zich celvocht, ook wel...", options: ["sacroplasma", "fasciculi", "sacrolemma"], correct: 0 },
+  { q: "Wat is een bursitis?", options: ["Peesontsteking", "Slijmbeursontsteking", "Ontsteking van de gewrichten"], correct: 1 },
+  { q: "Welke doelstelling heb je als trainer voor je klant gesteld als je wilt dat de klant zich dient te kunnen uiten tijdens het trainen in het fitnesssegment?", options: ["Psychomotorische doelstelling", "Cognitieve doelstelling", "Sociaal-affectieve doelstelling"], correct: 2 },
+  { q: "Hoe noemen we de knoop waar de prikkel iets vertraagt voordat hij wordt doorgestuurd naar de ventrikels?", options: ["Atrioventriculaire knoop", "Atrioventriculaire bundel", "Sinusknoop"], correct: 0 },
+  { q: "Wat is intramusculaire coördinatie?", options: ["De samenwerking van de spiervezels binnen in een spier", "Beide antwoorden zijn juist", "De samenwerking tussen spieren"], correct: 0 },
+  { q: "De STARR-methode: de S staat voor Situatie. Wat wordt hiermee bedoeld?", options: ["Wat was het doel?", "Je wilt een helder beeld krijgen van de situatie", "Hoe werd de oefening uitgevoerd?"], correct: 1 },
+  { q: "In het schoudergewricht kun je de beweging anteflexie maken. Tot hoeveel graden spreken we van anteflexie?", options: ["80-90 graden", "60 graden", "90-100 graden"], correct: 2 },
+  { q: "Welke oefening hoort thuis in een coretraining in de belastingsfase?", options: ["Dead Bug", "Medicine Ball Throw Down", "Pallof Press - verticaal"], correct: 2 },
+  { q: "Met de bouwsteen tempo/tijd bepaalt de trainer hoelang de oefening wordt uitgevoerd en hoelang de wissel duurt. Wat betekent het als we in een tempo 4-2-0-1 bewegen?", options: ["Concentrisch - isometrisch - excentrisch - isometrisch", "Excentrisch - isometrisch - concentrisch - isometrisch", "Excentrisch - isometrisch - statisch - isometrisch"], correct: 1 },
+  { q: "Wat is normaalkracht?", options: ["Een aantrekkende kracht die twee massa's op elkaar uitoefent", "De eigenschap van een spier om weerstand te bieden aan in- en uitwendige krachten door middel van haar contractiele vermogen", "Deze kracht zorgt ervoor dat we op de aardkorst aanwezig blijven ondanks het feit dat de aarde ons naar haar centrum trekt"], correct: 2 },
+  { q: "Welke klep (of welke kleppen) zorgt (zorgen) ervoor dat het bloed van de ventrikels niet terugstroomt in de atria?", options: ["Beide antwoorden zijn juist", "De bicuspidalisklep (mitralis)", "De tricuspidalisklep"], correct: 0 },
+  { q: "Welke spier hoort bij het bewegingssysteem van de bovenste extremiteiten van de core?", options: ["M. quadratus lumborum", "M. interspinalis", "M. rhomboideus"], correct: 2 },
+  { q: "Welke klacht wordt hier beschreven: door genetische bepaling of een overbelasting van het enkelgewricht vindt kraakbeenslijtage plaats. De beschermlaag van het bot is dan weg.", options: ["Inversietrauma", "Enkelartrose", "Voetbalenkel"], correct: 1 },
+  { q: "Hoe noemen we de vetten ontstaan in het proces waarbij vloeibare olien worden gehard om ze te kunnen gebruiken bij voedselproductie? Denk aan harde margarines en frituurvet, maar ook aan koekjes of gebaksoorten.", options: ["Onverzadigde vetten", "Transvetten", "Verzadigde vetten"], correct: 1 },
+  { q: "Noem een voorbeeld van epitheelweefsel.", options: ["Huid", "Kraakbeen", "Bloed"], correct: 0 },
+  { q: "De vezels van skeletspieren hebben allemaal dezelfde dikte maar niet dezelfde lengte. Wat is waar?", options: ["Hoe langer de vezels, hoe meer ze kunnen verkorten", "Hoe langer de vezels, hoe meer ze kunnen verlengen", "Hoe korter de vezels, hoe meer ze kunnen verkorten"], correct: 0 },
+  { q: "Welke klacht wordt hier beschreven: een zenuwaandoening waarbij de nervus medianus beklemd raakt door een vernauwing in de carpale tunnel?", options: ["Carpale tunnel syndroom", "Tenniselleboog", "Golfelleboog"], correct: 0 },
+  { q: "Maak de zin af. Een teveel aan eiwitten (bij een positieve energiebalans) zal worden opgeslagen als...", options: ["Eiwitten", "Koolhydraten", "Vet"], correct: 2 },
+  { q: "Welk zenuwstelsel heeft betrekking op alle processen die het evenwicht van stoffen in het lichaam bewaken?", options: ["Motorisch zenuwstelsel", "Vegetatief zenuwstelsel", "Somatisch zenuwstelsel"], correct: 1 }
+];
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Prepare a randomized run: shuffle question order, and shuffle option order per question
+function buildRun() {
+  const order = shuffle(QUESTIONS.map((_, i) => i));
+  return order.map(idx => {
+    const orig = QUESTIONS[idx];
+    const optIdx = shuffle(orig.options.map((_, i) => i));
+    const options = optIdx.map(i => orig.options[i]);
+    const correct = optIdx.indexOf(orig.correct);
+    return { q: orig.q, options, correct };
+  });
+}
+
+let run = buildRun();
+let current = 0;
+let score = 0;
+let answered = false;
+let history = [];
+
+const letters = ["A", "B", "C", "D"];
+const app = document.getElementById("app");
+
+function renderStart() {
+  app.innerHTML = `
+    <div class="start-screen">
+      <p><strong>${QUESTIONS.length} vragen</strong> uit het theorie-examen.<br>
+      Vragen en antwoordopties worden elke poging in willekeurige volgorde getoond.<br>
+      Na elk antwoord zie je direct of het klopt.</p>
+      <div class="actions" style="justify-content:center;">
+        <button id="startBtn">Start oefenquiz</button>
+      </div>
+    </div>`;
+  document.getElementById("startBtn").onclick = () => {
+    run = buildRun();
+    current = 0; score = 0; answered = false; history = [];
+    renderQuestion();
+  };
+}
+
+function renderQuestion() {
+  answered = false;
+  const item = run[current];
+  const pct = Math.round((current / run.length) * 100);
+  app.innerHTML = `
+    <div class="progress-row">
+      <span>Vraag ${current + 1} van ${run.length}</span>
+      <span>Score: ${score}</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="question-text">${item.q}</div>
+    <div id="options"></div>
+    <div id="feedback"></div>
+    <div class="actions">
+      <button id="nextBtn" disabled>Volgende</button>
+    </div>`;
+
+  const optionsEl = document.getElementById("options");
+  item.options.forEach((opt, i) => {
+    const div = document.createElement("div");
+    div.className = "option";
+    div.innerHTML = `<span class="letter">${letters[i]}</span><span>${opt}</span>`;
+    div.onclick = () => selectAnswer(i);
+    optionsEl.appendChild(div);
+  });
+
+  document.getElementById("nextBtn").onclick = () => {
+    current++;
+    if (current < run.length) renderQuestion();
+    else renderResult();
+  };
+}
+
+function selectAnswer(i) {
+  if (answered) return;
+  answered = true;
+  const item = run[current];
+  const isCorrect = i === item.correct;
+  if (isCorrect) score++;
+  history.push({ q: item.q, options: item.options, chosen: i, correct: item.correct });
+
+  const opts = document.querySelectorAll(".option");
+  opts.forEach((el, idx) => {
+    el.classList.add("disabled");
+    if (idx === item.correct) el.classList.add("correct");
+    if (idx === i && !isCorrect) el.classList.add("incorrect");
+  });
+
+  const fb = document.getElementById("feedback");
+  fb.innerHTML = `<div class="feedback ${isCorrect ? "correct" : "incorrect"}">
+    ${isCorrect ? "Correct!" : "Incorrect. Juiste antwoord: " + letters[item.correct] + " - " + item.options[item.correct]}
+  </div>`;
+
+  document.getElementById("nextBtn").disabled = false;
+}
+
+function renderResult() {
+  const pct = Math.round((score / run.length) * 100);
+  let reviewHtml = history.map((h, i) => `
+    <div class="review-item">
+      <div class="q">${i + 1}. ${h.q}</div>
+      <div class="a ${h.chosen === h.correct ? "correct" : "incorrect"}">Jouw antwoord: ${letters[h.chosen]} - ${h.options[h.chosen]}</div>
+      ${h.chosen !== h.correct ? `<div class="a correct">Juist antwoord: ${letters[h.correct]} - ${h.options[h.correct]}</div>` : ""}
+    </div>`).join("");
+
+  app.innerHTML = `
+    <div class="result-score">${score} / ${run.length}</div>
+    <div class="result-sub">${pct}% correct</div>
+    <div class="actions" style="justify-content:center; gap:10px;">
+      <button id="retryBtn">Opnieuw oefenen</button>
+    </div>
+    <div style="margin-top:24px;">${reviewHtml}</div>`;
+
+  document.getElementById("retryBtn").onclick = () => {
+    run = buildRun();
+    current = 0; score = 0; answered = false; history = [];
+    renderQuestion();
+  };
+}
+
+renderStart();
+</script>
+</body>
+</html>
